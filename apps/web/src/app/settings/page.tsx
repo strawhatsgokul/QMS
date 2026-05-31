@@ -11,7 +11,9 @@ import { useAuthStore } from '@/store/auth';
 interface SettingsData {
   veyon_cli_path?: string;
   veyon_connection_timeout?: number;
+  veyon_webapi_key?: string;
   activitywatch_api_url?: string;
+  activitywatch_api_key?: string;
   activitywatch_poll_interval?: number;
   notifications_computer_offline?: boolean;
   notifications_screen_lock?: boolean;
@@ -27,7 +29,9 @@ interface SettingsData {
 const DEFAULTS: SettingsData = {
   veyon_cli_path: 'veyon-cli',
   veyon_connection_timeout: 10000,
+  veyon_webapi_key: '',
   activitywatch_api_url: 'http://localhost:5600/api',
+  activitywatch_api_key: '',
   activitywatch_poll_interval: 60,
   notifications_computer_offline: true,
   notifications_screen_lock: true,
@@ -150,9 +154,9 @@ export default function SettingsPage() {
                 <div className="relative">
                   <input
                     type={showKeys ? 'text' : 'password'}
-                    value=""
-                    disabled
-                    className="w-full rounded-lg border border-surface-200 bg-surface-50 px-4 py-2.5 text-sm text-surface-400 outline-none cursor-not-allowed"
+                    value={settings.veyon_webapi_key ?? ''}
+                    onChange={(e) => update('veyon_webapi_key', e.target.value)}
+                    className="w-full rounded-lg border border-surface-300 px-4 py-2.5 text-sm outline-none focus:border-primary-500"
                   />
                   <button
                     onClick={() => setShowKeys(!showKeys)}
@@ -161,12 +165,7 @@ export default function SettingsPage() {
                     {showKeys ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
-                <div className="mt-1.5 flex items-start gap-1.5">
-                  <Info size={14} className="mt-0.5 shrink-0 text-surface-400" />
-                  <p className="text-xs text-surface-400 leading-relaxed">
-                    Disabled — reserved for future <strong>Client Agent</strong>.
-                  </p>
-                </div>
+                <p className="mt-1 text-xs text-surface-400">API key for Veyon WebAPI authentication. Pushed to agents via <strong>SETUP_VEYON</strong> command.</p>
               </div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-surface-700">Connection Timeout (ms)</label>
@@ -199,8 +198,9 @@ export default function SettingsPage() {
                 <div className="relative">
                   <input
                     type={showKeys ? 'text' : 'password'}
-                    disabled
-                    className="w-full rounded-lg border border-surface-200 bg-surface-50 px-4 py-2.5 text-sm text-surface-400 outline-none cursor-not-allowed"
+                    value={settings.activitywatch_api_key ?? ''}
+                    onChange={(e) => update('activitywatch_api_key', e.target.value)}
+                    className="w-full rounded-lg border border-surface-300 px-4 py-2.5 text-sm outline-none focus:border-primary-500"
                   />
                   <button
                     onClick={() => setShowKeys(!showKeys)}
@@ -209,12 +209,7 @@ export default function SettingsPage() {
                     {showKeys ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
-                <div className="mt-1.5 flex items-start gap-1.5">
-                  <Info size={14} className="mt-0.5 shrink-0 text-surface-400" />
-                  <p className="text-xs text-surface-400 leading-relaxed">
-                    Disabled — reserved for future <strong>Client Agent</strong>.
-                  </p>
-                </div>
+                <p className="mt-1 text-xs text-surface-400">API key for ActivityWatch (if auth enabled). Sent to agents in config payload.</p>
               </div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-surface-700">Poll Interval (seconds)</label>

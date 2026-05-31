@@ -192,6 +192,66 @@ model SystemSetting {
   @@map("system_settings")
 }
 
+model Agent {
+  id              String           @id @default(uuid())
+  hostname        String
+  ipAddress       String           @map("ip_address")
+  macAddress      String?          @map("mac_address")
+  os              String?
+  version         String?
+  status          String           @default("offline")
+  agentKeyHash    String           @map("agent_key_hash")
+  agentToken      String?          @map("agent_token")
+  lastHeartbeatAt DateTime?        @map("last_heartbeat_at")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+
+  heartbeats      AgentHeartbeat[]
+  commands        AgentCommand[]
+
+  @@index([status])
+  @@index([hostname])
+  @@map("agents")
+}
+
+model AgentHeartbeat {
+  id              String   @id @default(uuid())
+  agentId         String   @map("agent_id")
+  cpuUsage        Float    @map("cpu_usage")
+  memoryUsage     Float    @map("memory_usage")
+  memoryTotal     Float?   @map("memory_total")
+  topProcesses    String?  @map("top_processes")
+  activeWindow    String?  @map("active_window")
+  activitySummary String?  @map("activity_summary")
+  veyonStatus     String?  @map("veyon_status")
+  awStatus        String?  @map("aw_status")
+  timestamp       DateTime @default(now())
+
+  agent           Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+  @@index([timestamp])
+  @@map("agent_heartbeats")
+}
+
+model AgentCommand {
+  id           String    @id @default(uuid())
+  agentId      String    @map("agent_id")
+  type         String
+  params       String?
+  status       String    @default("pending")
+  result       String?
+  errorMessage String?   @map("error_message")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  completedAt  DateTime? @map("completed_at")
+
+  agent        Agent     @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId, status])
+  @@index([status])
+  @@map("agent_commands")
+}
+
 model ImportedActivityData {
   id         String   @id @default(uuid())
   date       String

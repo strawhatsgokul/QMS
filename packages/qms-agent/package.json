@@ -1,0 +1,31 @@
+{
+  "name": "@veyon-aw/qms-agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "qms-agent": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "build:exe": "pwsh -File build-exe.ps1",
+    "clean": "rm -rf dist",
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "systeminformation": "^5.23.5",
+    "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "@yao-pkg/pkg": "^6.20.0",
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.5"
+  }
+}

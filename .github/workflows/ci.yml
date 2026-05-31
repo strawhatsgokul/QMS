@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-and-build:
+    name: Validate & Build Agent
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          NODE_ENV: development
+
+      - name: TypeCheck all workspaces
+        run: npm run typecheck
+
+      - name: Lint all workspaces
+        run: npm run lint
+
+      - name: Build agent TypeScript
+        run: npm run build -w packages/qms-agent
+
+      - name: Compile agent executable (pkg)
+        run: |
+          npx @yao-pkg/pkg packages/qms-agent/dist/index.js \
+            --targets node18-win-x64 \
+            --output qms-agent.exe \
+            --compress GZip
+
+      - name: Upload agent executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: qms-agent-win-x64
+          path: qms-agent.exe
+          if-no-files-found: error
+          retention-days: 7

@@ -21,6 +21,7 @@ import { auditLogsRouter } from './routes/audit-logs.js';
 import { notificationsRouter } from './routes/notifications.js';
 import { watchRulesRouter } from './routes/watch-rules.js';
 import { alertsRouter } from './routes/alerts.js';
+import { agentRouter } from './routes/agent.route.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { authenticate } from './middleware/auth.js';
 import cron from 'node-cron';
@@ -80,6 +81,7 @@ app.use('/api/audit-logs', authenticate, auditLogsRouter);
 app.use('/api/notifications', authenticate, notificationsRouter);
 app.use('/api/watch-rules', authenticate, watchRulesRouter);
 app.use('/api/alerts', authenticate, alertsRouter);
+app.use('/api', agentRouter);
 
 app.use(errorHandler);
 

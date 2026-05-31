@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="QMS Agent" Language="1033" Version="1.0.0"
+           Manufacturer="QMS Dashboard" UpgradeCode="6b8a7c3e-9f4d-4e2a-b1c5-d7e8f9a0b2c3">
+
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"
+             Platform="x64" Description="QMS Client Agent - Remote monitoring and management" />
+
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Launch condition: Windows 10+ -->
+    <Condition Message="QMS Agent requires Windows 10 or later">
+      <![CDATA[VersionNT >= 1000]]>
+    </Condition>
+
+    <!-- Directory structure -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLDIR" Name="QMS Agent">
+          <Component Id="AgentExe" Guid="a1b2c3d4-e5f6-7890-abcd-ef1234567890">
+            <File Id="QmsAgentExe" Name="qms-agent.exe" Source="..\packages\qms-agent\dist\qms-agent.exe"
+                  Vital="yes" KeyPath="yes" />
+            <ServiceInstall Id="QMSAgentService" Type="ownProcess" Vital="yes"
+              Name="QMSAgent" DisplayName="QMS Agent" Description="QMS Client Agent - Monitors system stats, Veyon, and ActivityWatch"
+              Start="auto" ErrorControl="normal" Interactive="no">
+              <ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart"
+                ThirdFailureActionType="restart" RestartServiceDelayInSeconds="10"
+                ResetPeriodInDays="1" />
+            </ServiceInstall>
+            <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall"
+              Name="QMSAgent" Wait="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+
+      <!-- ProgramData for log/config storage -->
+      <Directory Id="CommonAppDataFolder">
+        <Directory Id="QMSDataDir" Name="QMS">
+          <Directory Id="AgentDataDir" Name="agent">
+            <Component Id="DataDir" Guid="b2c3d4e5-f6a7-8901-bcde-f12345678901">
+              <CreateFolder />
+              <RemoveFile Id="PurgeLogs" Name="*.log" On="uninstall" />
+              <RemoveFile Id="PurgeDB" Name="*.db*" On="uninstall" />
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <!-- Feature: Main application -->
+    <Feature Id="MainFeature" Title="QMS Agent" Level="1">
+      <ComponentRef Id="AgentExe" />
+      <ComponentRef Id="DataDir" />
+    </Feature>
+
+    <!-- Custom UI for API URL and Agent Key -->
+    <UI>
+      <UIRef Id="WixUI_Minimal" />
+
+      <!-- Custom dialog for agent configuration -->
+      <Dialog Id="AgentConfigDlg" Width="370" Height="270" Title="[ProductName] Setup">
+        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44"
+                 TabSkip="no" Text="!(loc.InstallDirDlgBannerBitmap)" />
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+        <Control Id="Title" Type="Text" X="15" Y="10" Width="340" Height="15"
+                 Text="{\WixUI_Font_Title}Agent Configuration" />
+        <Control Id="Description" Type="Text" X="25" Y="23" Width="320" Height="15"
+                 Text="Enter the API server URL and agent authentication key." />
+
+        <Control Id="ApiUrlLabel" Type="Text" X="25" Y="60" Width="320" Height="15"
+                 Text="API Server URL:" />
+        <Control Id="ApiUrlEdit" Type="Edit" X="25" Y="75" Width="320" Height="18"
+                 Property="AGENT_API_URL" />
+
+        <Control Id="AgentKeyLabel" Type="Text" X="25" Y="105" Width="320" Height="15"
+                 Text="Agent Key:" />
+        <Control Id="AgentKeyEdit" Type="Edit" X="25" Y="120" Width="320" Height="18"
+                 Property="AGENT_KEY" Password="yes" />
+
+        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17"
+                 Text="!(loc.WixUIBack)" />
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17"
+                 Default="yes" Text="!(loc.WixUINext)" />
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17"
+                 Cancel="yes" Text="!(loc.WixUICancel)">
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+      </Dialog>
+
+      <!-- Wire the custom dialog into the install sequence -->
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="AgentConfigDlg"
+               Order="3">1</Publish>
+      <Publish Dialog="AgentConfigDlg" Control="Back" Event="NewDialog" Value="InstallDirDlg">1</Publish>
+      <Publish Dialog="AgentConfigDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+    </UI>
+
+    <!-- Set default property values -->
+    <Property Id="AGENT_API_URL" Value="http://localhost:4000" />
+    <Property Id="AGENT_KEY" Value="change-me" />
+
+    <!-- Write config file on install -->
+    <CustomAction Id="WriteConfig" Directory="INSTALLDIR" Execute="deferred"
+                  Impersonate="no" Return="check"
+                  Script="vbscript">
+      <![CDATA[
+        Dim fso, file, config
+        Set fso = CreateObject("Scripting.FileSystemObject")
+        Set file = fso.CreateTextFile("C:\ProgramData\QMS\agent\config.json", True)
+        config = "{"
+        config = config & """apiUrl"":""" & Session.Property("AGENT_API_URL") & ""","
+        config = config & """agentKey"":""" & Session.Property("AGENT_KEY") & ""","
+        config = config & """dataDir"":""C:\ProgramData\QMS\agent"","
+        config = config & """heartbeatInterval"":30,"
+        config = config & """commandPollInterval"":5"
+        config = config & "}"
+        file.Write config
+        file.Close
+      ]]>
+    </CustomAction>
+
+    <InstallExecuteSequence>
+      <Custom Action="WriteConfig" After="InstallFiles">NOT Installed</Custom>
+    </InstallExecuteSequence>
+  </Product>
+</Wix>
