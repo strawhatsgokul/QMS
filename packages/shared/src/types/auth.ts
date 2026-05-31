@@ -9,6 +9,7 @@ export interface User {
   lastLogin?: string;
   createdAt: string;
   updatedAt: string;
+  mustChangePassword?: boolean;
 }
 
 export type UserRole = 'admin' | 'staff' | 'viewer';

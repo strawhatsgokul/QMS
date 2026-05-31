@@ -1,0 +1,11 @@
+{
+  "name": "QMS Dashboard",
+  "short_name": "QMS",
+  "description": "Unified classroom management and activity monitoring dashboard",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "orientation": "any",
+  "categories": ["education", "productivity"]
+}

@@ -21,22 +21,26 @@ export function ComputerGrid({ computers }: ComputerGridProps) {
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold">Computers</h2>
-          <p className="text-sm text-surface-500">
+          <p className="text-sm text-surface-500" aria-live="polite">
             {onlineCount} of {computers.length} online
           </p>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5" role="list" aria-label="Computer grid">
           {computers.map((computer) => (
             <div
               key={computer.id}
               onClick={() => router.push(`/computers/${computer.id}`)}
               className="card-hover cursor-pointer rounded-lg border p-3 transition-all"
+              role="listitem"
+              tabIndex={0}
+              aria-label={`${computer.hostname} - ${getStatusLabel(computer.status)}`}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); router.push(`/computers/${computer.id}`); } }}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className={getStatusColor(computer.status)} />
+                  <span className={getStatusColor(computer.status)} aria-hidden="true" />
                   <Badge variant={
                     computer.status === 'online' ? 'success' :
                     computer.status === 'locked' ? 'warning' :
@@ -58,8 +62,8 @@ export function ComputerGrid({ computers }: ComputerGridProps) {
         </div>
 
         {computers.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-12 text-surface-400">
-            <Monitor size={48} className="mb-3" />
+          <div className="flex flex-col items-center justify-center py-12 text-surface-400" role="status">
+            <Monitor size={48} className="mb-3" aria-hidden="true" />
             <p className="font-medium">No computers found</p>
             <p className="text-sm">Add computers in settings to get started</p>
           </div>

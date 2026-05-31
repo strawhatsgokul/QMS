@@ -2,8 +2,11 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { validate } from '../middleware/validate.js';
 import { authorize } from '../middleware/auth.js';
+import { prisma } from '../index.js';
 import { veyonService } from '../services/veyon.js';
+import { agentService } from '../services/agent.service.js';
 import { logAction } from '../services/auditLog.js';
+import { hasActiveAgent } from '../utils/hybrid-mode.js';
 
 export const veyonRouter = Router();
 
@@ -21,10 +24,28 @@ const fileTransferSchema = computerActionSchema.extend({
   destinationPath: z.string().min(1),
 });
 
+async function dispatchOrVeyon(
+  computerId: string,
+  action: string,
+  veyonFn: () => Promise<unknown>
+): Promise<unknown> {
+  const computer = await prisma.computer.findUnique({ where: { id: computerId } });
+  if (!computer) return { computerId, error: 'Computer not found' };
+
+  const { active, agentId } = await hasActiveAgent(computer);
+  if (active) {
+    await agentService.enqueueCommand(agentId!, action, { computerId });
+    return { computerId, status: 'queued', service: 'agent' };
+  }
+  return veyonFn();
+}
+
 veyonRouter.post('/screen/lock', authorize('admin', 'staff'), validate(computerActionSchema), async (req, res, next) => {
   try {
     const results = await Promise.allSettled(
-      req.body.computerIds.map((id: string) => veyonService.lockScreen(id))
+      req.body.computerIds.map((id: string) =>
+        dispatchOrVeyon(id, 'LOCK', () => veyonService.lockScreen(id))
+      )
     );
     const ip = req.ip || req.socket.remoteAddress || '';
     logAction({ userId: req.user!.sub, action: 'VEYON_LOCK', resource: 'veyon', resourceId: req.body.computerIds.join(','), details: { count: req.body.computerIds.length }, ipAddress: ip });
@@ -35,7 +56,9 @@ veyonRouter.post('/screen/lock', authorize('admin', 'staff'), validate(computerA
 veyonRouter.post('/screen/unlock', authorize('admin', 'staff'), validate(computerActionSchema), async (req, res, next) => {
   try {
     const results = await Promise.allSettled(
-      req.body.computerIds.map((id: string) => veyonService.unlockScreen(id))
+      req.body.computerIds.map((id: string) =>
+        dispatchOrVeyon(id, 'UNLOCK', () => veyonService.unlockScreen(id))
+      )
     );
     const ip = req.ip || req.socket.remoteAddress || '';
     logAction({ userId: req.user!.sub, action: 'VEYON_UNLOCK', resource: 'veyon', resourceId: req.body.computerIds.join(','), details: { count: req.body.computerIds.length }, ipAddress: ip });
@@ -46,7 +69,9 @@ veyonRouter.post('/screen/unlock', authorize('admin', 'staff'), validate(compute
 veyonRouter.post('/power/restart', authorize('admin', 'staff'), validate(computerActionSchema), async (req, res, next) => {
   try {
     const results = await Promise.allSettled(
-      req.body.computerIds.map((id: string) => veyonService.restartComputer(id))
+      req.body.computerIds.map((id: string) =>
+        dispatchOrVeyon(id, 'REBOOT', () => veyonService.restartComputer(id))
+      )
     );
     const ip = req.ip || req.socket.remoteAddress || '';
     logAction({ userId: req.user!.sub, action: 'VEYON_RESTART', resource: 'veyon', resourceId: req.body.computerIds.join(','), details: { count: req.body.computerIds.length }, ipAddress: ip });
@@ -57,7 +82,9 @@ veyonRouter.post('/power/restart', authorize('admin', 'staff'), validate(compute
 veyonRouter.post('/power/shutdown', authorize('admin', 'staff'), validate(computerActionSchema), async (req, res, next) => {
   try {
     const results = await Promise.allSettled(
-      req.body.computerIds.map((id: string) => veyonService.shutdownComputer(id))
+      req.body.computerIds.map((id: string) =>
+        dispatchOrVeyon(id, 'SHUTDOWN', () => veyonService.shutdownComputer(id))
+      )
     );
     const ip = req.ip || req.socket.remoteAddress || '';
     logAction({ userId: req.user!.sub, action: 'VEYON_SHUTDOWN', resource: 'veyon', resourceId: req.body.computerIds.join(','), details: { count: req.body.computerIds.length }, ipAddress: ip });
@@ -80,7 +107,9 @@ veyonRouter.post('/message', authorize('admin', 'staff'), validate(messageSchema
   try {
     const results = await Promise.allSettled(
       req.body.computerIds.map((id: string) =>
-        veyonService.sendMessage(id, req.body.message, req.body.title)
+        dispatchOrVeyon(id, 'MESSAGE', () =>
+          veyonService.sendMessage(id, req.body.message, req.body.title)
+        )
       )
     );
     const ip = req.ip || req.socket.remoteAddress || '';

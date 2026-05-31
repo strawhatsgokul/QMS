@@ -36,7 +36,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || loading}
         {...props}
       >
-        {loading && <Loader2 size={16} className="animate-spin" />}
+        {loading && <Loader2 size={16} className="animate-spin" aria-hidden="true" />}
         {children}
       </button>
     );

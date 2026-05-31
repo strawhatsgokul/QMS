@@ -7,12 +7,13 @@ import { validate } from '../middleware/validate.js';
 import { authenticate } from '../middleware/auth.js';
 import { logger } from '../config/logger.js';
 import { logAction } from '../services/auditLog.js';
+import type { User } from '@veyon-aw/shared';
 
 export const authRouter = Router();
 
 const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().min(1),
 });
 
 const registerSchema = z.object({
@@ -20,6 +21,11 @@ const registerSchema = z.object({
   password: z.string().min(8),
   name: z.string().min(1).max(100),
   role: z.enum(['admin', 'staff', 'viewer']).default('viewer'),
+});
+
+const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1),
+  newPassword: z.string().min(8),
 });
 
 authRouter.post('/login', validate(loginSchema), async (req, res, next) => {
@@ -41,7 +47,9 @@ authRouter.post('/login', validate(loginSchema), async (req, res, next) => {
       where: { id: user.id },
       data: { lastLogin: new Date() },
     });
-    const tokens = generateToken(user);
+    const { passwordHash: _, ...safeUser } = user;
+    const tokens = generateToken(safeUser);
+    tokens.user = safeUser as unknown as User;
     logAction({ userId: user.id, action: 'USER_LOGIN_SUCCESS', resource: 'auth', ipAddress: ip });
     res.json({ success: true, data: tokens });
   } catch (err) { next(err); }
@@ -88,9 +96,28 @@ authRouter.get('/me', authenticate, async (req, res, next) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.user!.sub },
-      select: { id: true, email: true, name: true, role: true, avatar: true, department: true, lastLogin: true, createdAt: true },
+      select: { id: true, email: true, name: true, role: true, avatar: true, department: true, isActive: true, mustChangePassword: true, lastLogin: true, createdAt: true, updatedAt: true },
     });
     if (!user) throw new AppError(404, 'USER_NOT_FOUND', 'User not found');
     res.json({ success: true, data: user });
+  } catch (err) { next(err); }
+});
+
+authRouter.post('/change-password', authenticate, validate(changePasswordSchema), async (req, res, next) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const user = await prisma.user.findUnique({ where: { id: req.user!.sub } });
+    if (!user) throw new AppError(404, 'USER_NOT_FOUND', 'User not found');
+    if (!(await verifyPassword(currentPassword, user.passwordHash))) {
+      throw new AppError(400, 'INVALID_PASSWORD', 'Current password is incorrect');
+    }
+    const passwordHash = await hashPassword(newPassword);
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { passwordHash, mustChangePassword: false },
+    });
+    const tokens = generateToken({ id: user.id, role: user.role });
+    logAction({ userId: user.id, action: 'PASSWORD_CHANGED', resource: 'auth', ipAddress: req.ip || req.socket.remoteAddress });
+    res.json({ success: true, data: tokens });
   } catch (err) { next(err); }
 });

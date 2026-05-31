@@ -9,33 +9,42 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Seeding database...');
 
-  const adminPassword = await bcrypt.hash('admin123', 12);
-  const staffPassword = await bcrypt.hash('staff123', 12);
-
-  const staff = await prisma.user.upsert({
-    where: { email: 'staff@qms.local' },
-    update: {},
-    create: {
-      email: 'staff@qms.local',
-      passwordHash: staffPassword,
-      name: 'Default Staff',
-      role: 'staff',
-    },
-  });
-
-  console.log(`Created users: ${admin.email}, ${staff.email}`);
-
-  // Remove legacy fake data
+  // Delete all existing records in dependency order
+  await prisma.agentCommand.deleteMany();
+  await prisma.agentHeartbeat.deleteMany();
+  await prisma.agent.deleteMany();
+  await prisma.alertDetection.deleteMany();
+  await prisma.watchRule.deleteMany();
+  await prisma.notification.deleteMany();
+  await prisma.auditLog.deleteMany();
+  await prisma.user.deleteMany();
   await prisma.computerGroupMember.deleteMany();
   await prisma.computerGroup.deleteMany();
   await prisma.importedActivityData.deleteMany();
   await prisma.computer.deleteMany();
   await prisma.room.deleteMany();
+  await prisma.categoryRule.deleteMany();
+  await prisma.activityWatchInstance.deleteMany();
+  await prisma.systemSetting.deleteMany();
 
-  const testRoom = await prisma.room.upsert({
-    where: { id: 'room-test-lab' },
-    update: {},
-    create: {
+  console.log('Cleared all existing data');
+
+  const adminPassword = await bcrypt.hash('admin', 12);
+
+  const admin = await prisma.user.create({
+    data: {
+      email: 'admin@qserveits.com',
+      passwordHash: adminPassword,
+      name: 'Administrator',
+      role: 'admin',
+      mustChangePassword: true,
+    },
+  });
+
+  console.log(`Created admin user: ${admin.email}`);
+
+  const testRoom = await prisma.room.create({
+    data: {
       id: 'room-test-lab',
       name: 'Test Lab',
       description: 'Local development and testing environment',
@@ -45,10 +54,8 @@ async function main() {
 
   console.log(`Created room: ${testRoom.name}`);
 
-  await prisma.computer.upsert({
-    where: { id: 'comp-local' },
-    update: {},
-    create: {
+  await prisma.computer.create({
+    data: {
       id: 'comp-local',
       hostname: 'Localhost Test Machine',
       ipAddress: '127.0.0.1',
@@ -81,10 +88,8 @@ async function main() {
   ];
 
   for (const rule of categoryRules) {
-    await prisma.categoryRule.upsert({
-      where: { id: `rule-${rule.pattern.toLowerCase().replace(/\s+/g, '-')}` },
-      update: {},
-      create: {
+    await prisma.categoryRule.create({
+      data: {
         id: `rule-${rule.pattern.toLowerCase().replace(/\s+/g, '-')}`,
         ...rule,
       },
@@ -93,10 +98,8 @@ async function main() {
 
   console.log(`Created ${categoryRules.length} category rules`);
 
-  const instance = await prisma.activityWatchInstance.upsert({
-    where: { id: 'aw-local' },
-    update: {},
-    create: {
+  const instance = await prisma.activityWatchInstance.create({
+    data: {
       id: 'aw-local',
       name: 'Local Workstation',
       hostname: 'DESKTOP-B23KJA4',
@@ -116,10 +119,8 @@ async function main() {
   ];
 
   for (const setting of settings) {
-    await prisma.systemSetting.upsert({
-      where: { key: setting.key },
-      update: {},
-      create: setting,
+    await prisma.systemSetting.create({
+      data: setting,
     });
   }
 

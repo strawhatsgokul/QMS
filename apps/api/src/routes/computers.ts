@@ -5,6 +5,7 @@ import { validate } from '../middleware/validate.js';
 import { authorize } from '../middleware/auth.js';
 import { AppError } from '../middleware/errorHandler.js';
 import { veyonService } from '../services/veyon.js';
+import { getAgentStatus } from '../utils/hybrid-mode.js';
 
 export const computersRouter = Router();
 
@@ -32,7 +33,16 @@ computersRouter.get('/', async (req, res, next) => {
       include: { room: true },
       orderBy: { hostname: 'asc' },
     });
-    res.json({ success: true, data: computers });
+    const enriched = await Promise.all(
+      computers.map(async (computer) => {
+        const agentStatus = await getAgentStatus(computer);
+        if (agentStatus) {
+          return { ...computer, status: agentStatus.status, currentUser: agentStatus.currentUser ?? computer.currentUser, source: 'agent' };
+        }
+        return { ...computer, source: 'veyon' };
+      })
+    );
+    res.json({ success: true, data: enriched });
   } catch (err) { next(err); }
 });
 
@@ -43,7 +53,12 @@ computersRouter.get('/:id', async (req, res, next) => {
       include: { room: true, groups: { include: { group: true } } },
     });
     if (!computer) throw new AppError(404, 'NOT_FOUND', 'Computer not found');
-    res.json({ success: true, data: computer });
+    const agentStatus = await getAgentStatus(computer);
+    if (agentStatus) {
+      res.json({ success: true, data: { ...computer, status: agentStatus.status, currentUser: agentStatus.currentUser ?? computer.currentUser, source: 'agent' } });
+    } else {
+      res.json({ success: true, data: { ...computer, source: 'veyon' } });
+    }
   } catch (err) { next(err); }
 });
 
@@ -79,7 +94,12 @@ computersRouter.post('/:id/scan', authorize('admin', 'staff'), async (req, res, 
   try {
     const computer = await prisma.computer.findUnique({ where: { id: req.params.id } });
     if (!computer) throw new AppError(404, 'NOT_FOUND', 'Computer not found');
-    const status = await veyonService.getComputerStatus(computer);
-    res.json({ success: true, data: status });
+    const agentStatus = await getAgentStatus(computer);
+    if (agentStatus) {
+      res.json({ success: true, data: { online: true, currentUser: agentStatus.currentUser, source: 'agent' } });
+    } else {
+      const status = await veyonService.getComputerStatus(computer);
+      res.json({ success: true, data: { ...status, source: 'veyon' } });
+    }
   } catch (err) { next(err); }
 });

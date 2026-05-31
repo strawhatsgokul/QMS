@@ -1,11 +1,19 @@
 import { Router } from 'express';
 import { prisma } from '../index.js';
 import { activityWatchService } from '../services/activitywatch.js';
+import { getCached, setCache } from '../services/redis.js';
 
 export const dashboardRouter = Router();
 
 dashboardRouter.get('/stats', async (req, res, next) => {
   try {
+    const cacheKey = `dashboard:stats:${req.user!.sub}`;
+    const cached = await getCached<Record<string, unknown>>(cacheKey);
+    if (cached) {
+      res.json({ success: true, data: cached, source: 'cache' });
+      return;
+    }
+
     type ComputerStat = { status: string; _count: number };
     const [computerStats, roomCount, recentAlerts] = await Promise.all([
       prisma.computer.groupBy({
@@ -40,7 +48,8 @@ dashboardRouter.get('/stats', async (req, res, next) => {
       alerts: recentAlerts,
     };
 
-    res.json({ success: true, data: stats });
+    await setCache(cacheKey, stats, 30);
+    res.json({ success: true, data: stats, source: 'live' });
   } catch (err) { next(err); }
 });
 

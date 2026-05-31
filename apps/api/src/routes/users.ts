@@ -28,7 +28,7 @@ const updateUserSchema = z.object({
 usersRouter.get('/', authorize('admin'), async (_req, res, next) => {
   try {
     const users = await prisma.user.findMany({
-      select: { id: true, email: true, name: true, role: true, department: true, isActive: true, lastLogin: true, createdAt: true },
+      select: { id: true, email: true, name: true, role: true, department: true, isActive: true, mustChangePassword: true, lastLogin: true, createdAt: true },
       orderBy: { name: 'asc' },
     });
     res.json({ success: true, data: users });
@@ -39,7 +39,7 @@ usersRouter.get('/:id', authorize('admin'), async (req, res, next) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.params.id },
-      select: { id: true, email: true, name: true, role: true, avatar: true, department: true, isActive: true, lastLogin: true, createdAt: true, updatedAt: true },
+      select: { id: true, email: true, name: true, role: true, avatar: true, department: true, isActive: true, mustChangePassword: true, lastLogin: true, createdAt: true, updatedAt: true },
     });
     if (!user) throw new AppError(404, 'NOT_FOUND', 'User not found');
     res.json({ success: true, data: user });
@@ -56,7 +56,7 @@ usersRouter.post('/', authorize('admin'), validate(createUserSchema), async (req
     const passwordHash = await hashPassword(password);
     const user = await prisma.user.create({
       data: { email, passwordHash, name, role, department },
-      select: { id: true, email: true, name: true, role: true, department: true, isActive: true, createdAt: true },
+      select: { id: true, email: true, name: true, role: true, department: true, isActive: true, mustChangePassword: true, createdAt: true },
     });
     const ip = req.ip || req.socket.remoteAddress || '';
     logAction({ userId: req.user!.sub, action: 'USER_CREATED', resource: 'users', resourceId: user.id, details: { email: user.email, role: user.role }, ipAddress: ip });
@@ -71,10 +71,12 @@ usersRouter.post('/', authorize('admin'), validate(createUserSchema), async (req
 
 usersRouter.patch('/:id', authorize('admin'), validate(updateUserSchema), async (req, res, next) => {
   try {
+    const existing = await prisma.user.findUnique({ where: { id: req.params.id }, select: { id: true } });
+    if (!existing) throw new AppError(404, 'NOT_FOUND', 'User not found');
     const user = await prisma.user.update({
       where: { id: req.params.id },
       data: req.body,
-      select: { id: true, email: true, name: true, role: true, department: true, isActive: true, lastLogin: true, createdAt: true },
+      select: { id: true, email: true, name: true, role: true, department: true, isActive: true, mustChangePassword: true, lastLogin: true, createdAt: true },
     });
     const ip = req.ip || req.socket.remoteAddress || '';
     logAction({ userId: req.user!.sub, action: 'USER_UPDATED', resource: 'users', resourceId: user.id, details: { email: user.email, changes: Object.keys(req.body) }, ipAddress: ip });
@@ -114,9 +116,10 @@ usersRouter.delete('/:id', authorize('admin'), async (req, res, next) => {
       throw new AppError(400, 'SELF_DELETE', 'Cannot delete your own account');
     }
     const user = await prisma.user.findUnique({ where: { id: req.params.id }, select: { id: true, email: true } });
+    if (!user) throw new AppError(404, 'NOT_FOUND', 'User not found');
     await prisma.user.delete({ where: { id: req.params.id } });
     const ip = req.ip || req.socket.remoteAddress || '';
-    if (user) logAction({ userId: req.user!.sub, action: 'USER_DELETED', resource: 'users', resourceId: req.params.id, details: { email: user.email }, ipAddress: ip });
+    logAction({ userId: req.user!.sub, action: 'USER_DELETED', resource: 'users', resourceId: req.params.id, details: { email: user.email }, ipAddress: ip });
     res.json({ success: true, data: { id: req.params.id } });
   } catch (err) { next(err); }
 });

@@ -98,10 +98,11 @@ export function Header() {
   return (
     <header className="flex h-16 items-center justify-between border-b bg-white px-6">
       <div className="relative w-96">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-400" size={18} />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-400" size={18} aria-hidden="true" />
         <input
           type="text"
           placeholder="Search computers, users..."
+          aria-label="Search computers and users"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full rounded-lg border border-surface-200 bg-surface-50 py-2 pl-10 pr-4 text-sm outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100"
@@ -114,25 +115,29 @@ export function Header() {
           <button
             onClick={toggleBell}
             className="relative rounded-lg p-2 hover:bg-surface-100"
+            aria-label={`Notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
+            aria-expanded={isBellOpen}
+            aria-haspopup="true"
           >
-            <Bell size={20} className="text-surface-500" />
+            <Bell size={20} className="text-surface-500" aria-hidden="true" />
             {unreadCount > 0 && (
-              <span className="absolute right-1 top-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
+              <span className="absolute right-1 top-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white" role="status">
                 {unreadCount > 99 ? '99+' : unreadCount}
               </span>
             )}
           </button>
 
           {isBellOpen && (
-            <div className="absolute right-0 top-full z-50 mt-2 w-96 rounded-xl border bg-white shadow-xl">
+            <div className="absolute right-0 top-full z-50 mt-2 w-96 rounded-xl border bg-white shadow-xl" role="dialog" aria-label="Notifications panel">
               <div className="flex items-center justify-between border-b px-4 py-3">
-                <h3 className="font-semibold text-surface-900">Notifications</h3>
+                <h3 className="font-semibold text-surface-900" id="notifications-heading">Notifications</h3>
                 {unreadCount > 0 && (
                   <button
                     onClick={() => markAllReadMutation.mutate()}
                     className="flex items-center gap-1 text-xs font-medium text-primary-600 hover:text-primary-700"
+                    aria-label="Mark all notifications as read"
                   >
-                    <CheckCheck size={14} /> Mark all read
+                    <CheckCheck size={14} aria-hidden="true" /> Mark all read
                   </button>
                 )}
               </div>
@@ -180,6 +185,9 @@ export function Header() {
           <button
             onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
             className="flex items-center gap-3 rounded-lg px-2 py-1.5 hover:bg-surface-100"
+            aria-label={`User menu for ${user?.name ?? 'User'}`}
+            aria-expanded={isUserMenuOpen}
+            aria-haspopup="true"
           >
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-100 text-sm font-semibold text-primary-700">
               {user?.name?.charAt(0)?.toUpperCase() ?? 'U'}

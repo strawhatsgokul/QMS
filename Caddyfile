@@ -1,0 +1,59 @@
+# QMS Dashboard - Caddy Reverse Proxy Configuration
+# Replace example.com with your actual domain for automatic HTTPS.
+# For local/private deployments, uncomment the :80 block below.
+
+# Production with automatic HTTPS:
+# example.com {
+#     # Proxy WebSocket connections (Socket.IO needs this)
+#     @websockets {
+#         header Connection *Upgrade*
+#         header Upgrade websocket
+#     }
+#     reverse_proxy @websockets web:3000
+#
+#     # API requests go directly to the API service
+#     handle /api/* {
+#         reverse_proxy api:4000
+#     }
+#
+#     # All other traffic goes to Next.js
+#     handle {
+#         reverse_proxy web:3000
+#     }
+#
+#     # Security headers
+#     header / {
+#         X-Content-Type-Options "nosniff"
+#         X-Frame-Options "DENY"
+#         X-XSS-Protection "1; mode=block"
+#         Referrer-Policy "strict-origin-when-cross-origin"
+#     }
+# }
+
+# HTTP-only fallback (no domain, local/development):
+:80 {
+    # Proxy WebSocket connections
+    @websockets {
+        header Connection *Upgrade*
+        header Upgrade websocket
+    }
+    reverse_proxy @websockets web:3000
+
+    # API requests
+    handle /api/* {
+        reverse_proxy api:4000
+    }
+
+    # All other traffic
+    handle {
+        reverse_proxy web:3000
+    }
+
+    # Security headers
+    header / {
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+}

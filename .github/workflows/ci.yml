@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [Developement]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Validate & Build Agent
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Typecheck all workspaces
+        run: npm run typecheck
+
+      - name: Build agent executable
+        run: pwsh -File build-exe.ps1
+        working-directory: packages/qms-agent
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: qms-agent
+          path: packages/qms-agent/qms-agent.exe
+          if-no-files-found: error
+          retention-days: 7

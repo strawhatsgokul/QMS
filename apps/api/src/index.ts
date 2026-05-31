@@ -22,7 +22,10 @@ import { notificationsRouter } from './routes/notifications.js';
 import { watchRulesRouter } from './routes/watch-rules.js';
 import { alertsRouter } from './routes/alerts.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { csrfCheck } from './middleware/csrf.js';
 import { authenticate } from './middleware/auth.js';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger.js';
 import cron from 'node-cron';
 import { deleteOldLogs } from './services/auditLog.js';
 import { seedDemoNotifications } from './services/notification.service.js';
@@ -42,6 +45,7 @@ const io = new Server(httpServer, {
 
 app.use(helmet());
 app.use(cors({ origin: config.cors.origin, credentials: true }));
+app.use(csrfCheck);
 morgan.token('body', (req: express.Request) => {
   if (req.method === 'GET' || req.method === 'DELETE') return '';
   const body = (req as express.Request & { body: unknown }).body;
@@ -62,6 +66,14 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 app.use('/api/', limiter);
+
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customSiteTitle: 'QMS Dashboard API',
+}));
+
+app.get('/api/docs.json', (_req, res) => {
+  res.json(swaggerSpec);
+});
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });

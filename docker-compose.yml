@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "127.0.0.1:4000:4000"
+    volumes:
+      - ./data:/app/data
+    env_file: .env
+    environment:
+      - PORT=4000
+      - NODE_ENV=production
+    restart: always
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - API_INTERNAL_URL=http://api:4000
+      - NEXT_PUBLIC_API_URL=http://api:4000
+      - NODE_ENV=production
+    depends_on:
+      - api
+    restart: always
+
+  reverse-proxy:
+    image: caddy:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+      - api
+    restart: always
+
+volumes:
+  caddy_data:
+  caddy_config:

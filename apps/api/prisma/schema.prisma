@@ -15,14 +15,16 @@ model User {
   role         String   @default("viewer")
   avatar       String?
   department   String?
-  isActive     Boolean  @default(true) @map("is_active")
-  lastLogin    DateTime? @map("last_login")
+  isActive           Boolean  @default(true) @map("is_active")
+  mustChangePassword Boolean  @default(false) @map("must_change_password")
+  lastLogin          DateTime? @map("last_login")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   auditLogs    AuditLog[]
   notifications Notification[]
 
+  @@index([email])
   @@map("users")
 }
 
@@ -96,7 +98,7 @@ model AuditLog {
   ipAddress  String?  @map("ip_address")
   createdAt  DateTime @default(now()) @map("created_at")
 
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([action])
@@ -114,7 +116,7 @@ model Notification {
   source    String?
   createdAt DateTime @default(now()) @map("created_at")
 
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, read])
   @@map("notifications")

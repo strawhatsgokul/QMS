@@ -5,10 +5,10 @@ import { Card, CardContent, CardHeader } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiGet, apiPost, apiPatch } from '@/lib/api';
+import { apiGet, apiPost, apiPatch, apiDelete } from '@/lib/api';
 import type { User, UserRole } from '@veyon-aw/shared';
 import { formatDate } from '@/lib/utils';
-import { UserPlus, Shield, Plus, X, Check, AlertCircle, KeyRound } from 'lucide-react';
+import { UserPlus, Shield, Plus, X, Check, AlertCircle, KeyRound, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { ROLE_PERMISSIONS, ROLE_LABELS } from '@veyon-aw/shared';
 
@@ -27,6 +27,9 @@ export default function UsersPage() {
   const [resetPwdUser, setResetPwdUser] = useState<User | null>(null);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [editUser, setEditUser] = useState<User | null>(null);
+  const [editForm, setEditForm] = useState({ name: '', department: '', isActive: true });
+  const [deleteUser, setDeleteUser] = useState<User | null>(null);
 
   const resetPwdMutation = useMutation({
     mutationFn: ({ userId, newPassword }: { userId: string; newPassword: string }) =>
@@ -55,6 +58,35 @@ export default function UsersPage() {
     },
     onError: (e: Error) => {
       setFeedback({ type: 'error', msg: `Role update failed: ${e.message}` });
+      setTimeout(() => setFeedback(null), 4000);
+    },
+  });
+
+  const editMutation = useMutation({
+    mutationFn: ({ userId, data }: { userId: string; data: typeof editForm }) =>
+      apiPatch(`/users/${userId}`, data),
+    onSuccess: () => {
+      setFeedback({ type: 'success', msg: 'User updated successfully' });
+      setEditUser(null);
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      setTimeout(() => setFeedback(null), 4000);
+    },
+    onError: (e: Error) => {
+      setFeedback({ type: 'error', msg: `Failed to update user: ${e.message}` });
+      setTimeout(() => setFeedback(null), 4000);
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (userId: string) => apiDelete(`/users/${userId}`),
+    onSuccess: () => {
+      setFeedback({ type: 'success', msg: 'User deleted successfully' });
+      setDeleteUser(null);
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      setTimeout(() => setFeedback(null), 4000);
+    },
+    onError: (e: Error) => {
+      setFeedback({ type: 'error', msg: `Failed to delete user: ${e.message}` });
       setTimeout(() => setFeedback(null), 4000);
     },
   });
@@ -148,6 +180,12 @@ export default function UsersPage() {
                           </Button>
                           <Button variant="ghost" size="sm" onClick={() => { setResetPwdUser(user); setNewPassword(''); setConfirmPassword(''); }}>
                             <KeyRound size={16} /> Reset Password
+                          </Button>
+                          <Button variant="ghost" size="sm" onClick={() => { setEditUser(user); setEditForm({ name: user.name, department: user.department || '', isActive: user.isActive }); }}>
+                            <Pencil size={16} /> Edit
+                          </Button>
+                          <Button variant="ghost" size="sm" onClick={() => setDeleteUser(user)} className="text-red-600 hover:bg-red-50">
+                            <Trash2 size={16} /> Delete
                           </Button>
                         </div>
                       </td>
@@ -265,6 +303,73 @@ export default function UsersPage() {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setEditUser(null)}>
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-surface-900">Edit User</h2>
+              <button onClick={() => setEditUser(null)} className="text-surface-400 hover:text-surface-600"><X size={20} /></button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="mb-1 block text-sm font-medium text-surface-700">Name</label>
+                <input type="text" value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                  className="w-full rounded-lg border border-surface-300 px-4 py-2 text-sm outline-none focus:border-primary-500" />
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-surface-700">Department</label>
+                <input type="text" value={editForm.department} onChange={(e) => setEditForm({ ...editForm, department: e.target.value })}
+                  className="w-full rounded-lg border border-surface-300 px-4 py-2 text-sm outline-none focus:border-primary-500" placeholder="e.g. Computer Science" />
+              </div>
+              <div className="flex items-center gap-3">
+                <input type="checkbox" id="isActive" checked={editForm.isActive}
+                  onChange={(e) => setEditForm({ ...editForm, isActive: e.target.checked })}
+                  className="h-4 w-4 rounded border-surface-300 text-primary-600 focus:ring-primary-500" />
+                <label htmlFor="isActive" className="text-sm font-medium text-surface-700">Account Active</label>
+              </div>
+              <div className="flex justify-end gap-2 pt-2">
+                <Button variant="outline" onClick={() => setEditUser(null)}>Cancel</Button>
+                <Button
+                  onClick={() => editMutation.mutate({ userId: editUser.id, data: editForm })}
+                  loading={editMutation.isPending}
+                  disabled={!editForm.name}
+                >
+                  Save Changes
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setDeleteUser(null)}>
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-600">
+                  <Trash2 size={20} />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-surface-900">Delete User</h2>
+                  <p className="text-sm text-surface-500">{deleteUser.name} · {deleteUser.email}</p>
+                </div>
+              </div>
+              <button onClick={() => setDeleteUser(null)} className="text-surface-400 hover:text-surface-600"><X size={20} /></button>
+            </div>
+            <p className="mb-4 text-sm text-surface-600">
+              Are you sure you want to delete this user? This action cannot be undone. All associated data (audit logs, notifications) will be preserved but linked to a deleted user.
+            </p>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setDeleteUser(null)}>Cancel</Button>
+              <Button variant="danger" onClick={() => deleteMutation.mutate(deleteUser.id)} loading={deleteMutation.isPending}>
+                Delete User
+              </Button>
             </div>
           </div>
         </div>
