@@ -1,0 +1,95 @@
+
+> veyon-activitywatch-dashboard@0.1.0 dev:api
+> npm run dev -w apps/api
+
+
+> @veyon-aw/api@0.1.0 dev
+> tsx watch src/index.ts
+
+2026-05-31T10:09:38.068Z [[32minfo[39m]: API server running on port 4000 
+2026-05-31T10:09:38.075Z [[32minfo[39m]: Health check: http://localhost:4000/api/health 
+2026-05-31T10:09:40.789Z [[32minfo[39m]: ::1 - - [31/May/2026:10:09:40 +0000] "GET /api/health HTTP/1.1" 200 54 "-" "curl/8.19.0" 
+2026-05-31T10:09:48.828Z [[32minfo[39m]: ::1 - - [31/May/2026:10:09:48 +0000] "POST /api/auth/login HTTP/1.1" 200 905 "-" "curl/8.19.0" 
+2026-05-31T10:09:49.001Z [[31merror[39m]: Unhandled error: {
+  "service": "veyon-aw-api",
+  "error": "buckets is not iterable",
+  "stack": "TypeError: buckets is not iterable\n    at ActivityWatchService.getProductivityMetrics (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:104:26)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async ActivityWatchService.getActivitySummary (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:171:21)\n    at async <anonymous> (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\routes\\activity.ts:41:21)"
+}
+2026-05-31T10:09:49.005Z [[32minfo[39m]: ::1 - - [31/May/2026:10:09:49 +0000] "GET /api/activity/summary?period=day HTTP/1.1" 500 92 "-" "curl/8.19.0" 
+3:40:04 pm [tsx] change in ./src\services\activitywatch.ts Restarting...
+cnode:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::4000
+    at Server.setupListenHandle [as _listen2] (node:net:2008:16)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at <anonymous> (D:\QMS\QMS_Developement_Folder\veyon-activitywatch-dashboard\apps\api\src\index.ts:82:12)
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async node:internal/modules/esm/loader:639:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:2044:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 4000
+}
+
+Node.js v24.15.0
+4:02:28 pm [tsx] change in ./src\config\index.ts Rerunning...
+c2026-05-31T10:32:34.443Z [[32minfo[39m]: API server running on port 4000 
+2026-05-31T10:32:34.457Z [[32minfo[39m]: Health check: http://localhost:4000/api/health 
+4:02:41 pm [tsx] change in ./src\services\veyon.ts Restarting...
+c2026-05-31T10:32:47.086Z [[33mwarn[39m]: Veyon private key not found at 
+node:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::4000
+    at Server.setupListenHandle [as _listen2] (node:net:2008:16)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at <anonymous> (D:\QMS\QMS_Developement_Folder\veyon-activitywatch-dashboard\apps\api\src\index.ts:82:12)
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async node:internal/modules/esm/loader:639:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:2044:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 4000
+}
+
+Node.js v24.15.0
+4:11:13 pm [tsx] change in ./src\services\veyon.ts Rerunning...
+c4:11:19 pm [tsx] change in ./src\services\veyon.ts Restarting...
+cnode:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::4000
+    at Server.setupListenHandle [as _listen2] (node:net:2008:16)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at <anonymous> (D:\QMS\QMS_Developement_Folder\veyon-activitywatch-dashboard\apps\api\src\index.ts:82:12)
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async node:internal/modules/esm/loader:639:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:2044:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 4000
+}
+
+Node.js v24.15.0

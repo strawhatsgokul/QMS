@@ -1,0 +1,209 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String
+  role         String   @default("viewer")
+  avatar       String?
+  department   String?
+  isActive     Boolean  @default(true) @map("is_active")
+  lastLogin    DateTime? @map("last_login")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  auditLogs    AuditLog[]
+  notifications Notification[]
+
+  @@map("users")
+}
+
+model Computer {
+  id           String   @id @default(uuid())
+  hostname     String
+  ipAddress    String   @map("ip_address")
+  macAddress   String?  @map("mac_address")
+  roomId       String?  @map("room_id")
+  status       String   @default("offline")
+  currentUser  String?  @map("current_user")
+  lastSeen     DateTime? @map("last_seen")
+  os           String?
+  veyonVersion String?  @map("veyon_version")
+  notes        String?
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  room         Room?     @relation(fields: [roomId], references: [id])
+  groups       ComputerGroupMember[]
+
+  @@index([roomId])
+  @@index([status])
+  @@map("computers")
+}
+
+model Room {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  location    String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  computers   Computer[]
+
+  @@map("rooms")
+}
+
+model ComputerGroup {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  members     ComputerGroupMember[]
+
+  @@map("computer_groups")
+}
+
+model ComputerGroupMember {
+  computerId String   @map("computer_id")
+  groupId    String   @map("group_id")
+  assignedAt DateTime @default(now()) @map("assigned_at")
+
+  computer Computer @relation(fields: [computerId], references: [id], onDelete: Cascade)
+  group    ComputerGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@id([computerId, groupId])
+  @@map("computer_group_members")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  action     String
+  resource   String
+  resourceId String?  @map("resource_id")
+  details    String?
+  ipAddress  String?  @map("ip_address")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  type      String
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  source    String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId, read])
+  @@map("notifications")
+}
+
+model WatchRule {
+  id           String   @id @default(uuid())
+  name         String
+  pattern      String
+  category     String   @default("custom")
+  severity     String   @default("warning")
+  isActive     Boolean  @default(true)
+  notifyAdmins Boolean  @default(true)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  detections   AlertDetection[]
+
+  @@map("watch_rules")
+}
+
+model AlertDetection {
+  id              String   @id @default(uuid())
+  ruleId          String   @map("rule_id")
+  ruleName        String
+  appName         String
+  hostname        String?
+  matchedPattern  String
+  severity        String
+  title           String
+  message         String
+  read            Boolean  @default(false)
+  notifiedAt      DateTime @default(now()) @map("notified_at")
+
+  rule            WatchRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+
+  @@index([ruleId])
+  @@index([notifiedAt])
+  @@map("alert_detections")
+}
+
+model ActivityWatchInstance {
+  id        String   @id @default(uuid())
+  name      String
+  hostname  String
+  apiUrl    String   @map("api_url")
+  apiKey    String?  @map("api_key")
+  isActive  Boolean  @default(true) @map("is_active")
+  lastSync  DateTime? @map("last_sync")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("activitywatch_instances")
+}
+
+model CategoryRule {
+  id        String   @id @default(uuid())
+  pattern   String
+  category  String
+  type      String   @default("app")
+  priority  Int      @default(0)
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([type, isActive])
+  @@map("category_rules")
+}
+
+model SystemSetting {
+  id    String @id @default(uuid())
+  key   String @unique
+  value String
+
+  @@map("system_settings")
+}
+
+model ImportedActivityData {
+  id         String   @id @default(uuid())
+  date       String
+  instanceId String?  @map("instance_id")
+  totalActive Int     @default(0) @map("total_active")
+  totalAfk   Int      @default(0) @map("total_afk")
+  apps       String
+  hourlyData String   @map("hourly_data")
+  categories String
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@unique([date, instanceId])
+  @@index([date])
+  @@map("imported_activity_data")
+}

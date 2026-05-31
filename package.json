@@ -1,0 +1,55 @@
+{
+  "name": "veyon-activitywatch-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Unified web dashboard integrating Veyon classroom management and ActivityWatch time tracking",
+  "scripts": {
+    "dev": "run-p dev:api dev:web",
+    "dev:web": "npm run dev -w apps/web",
+    "dev:api": "npm run dev -w apps/api",
+    "build": "run-s build:shared build:api build:web",
+    "build:web": "npm run build -w apps/web",
+    "build:api": "npm run build -w apps/api",
+    "build:shared": "npm run build -w packages/shared",
+    "lint": "run-s lint:web lint:api lint:shared",
+    "lint:web": "npm run lint -w apps/web",
+    "lint:api": "npm run lint -w apps/api",
+    "lint:shared": "npm run lint -w packages/shared",
+    "typecheck": "run-s typecheck:web typecheck:api typecheck:shared",
+    "typecheck:web": "npm run typecheck -w apps/web",
+    "typecheck:api": "npm run typecheck -w apps/api",
+    "typecheck:shared": "npm run typecheck -w packages/shared",
+    "clean": "run-s clean:web clean:api clean:shared",
+    "clean:web": "npm run clean -w apps/web",
+    "clean:api": "npm run clean -w apps/api",
+    "clean:shared": "npm run clean -w packages/shared",
+    "test": "run-s test:web test:api test:shared",
+    "test:web": "npm run test -w apps/web",
+    "test:api": "npm run test -w apps/api",
+    "test:shared": "npm run test -w packages/shared",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "db:generate": "npm run db:generate -w apps/api",
+    "db:push": "npm run db:push -w apps/api",
+    "db:migrate": "npm run db:migrate -w apps/api",
+    "db:seed": "npm run db:seed -w apps/api",
+    "postinstall": "npm run build:shared"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@types/node-cron": "^3.0.11",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "node-cron": "^4.2.1"
+  }
+}

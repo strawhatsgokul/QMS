@@ -1,0 +1,363 @@
+
+> veyon-activitywatch-dashboard@0.1.0 dev:api
+> npm run dev -w apps/api
+
+
+> @veyon-aw/api@0.1.0 dev
+> tsx watch src/index.ts
+
+2026-05-31T10:10:31.192Z [[32minfo[39m]: API server running on port 4000 
+2026-05-31T10:10:31.200Z [[32minfo[39m]: Health check: http://localhost:4000/api/health 
+2026-05-31T10:10:34.767Z [[32minfo[39m]: ::1 - - [31/May/2026:10:10:34 +0000] "POST /api/auth/login HTTP/1.1" 200 905 "-" "curl/8.19.0" 
+2026-05-31T10:10:34.930Z [[31merror[39m]: ActivityWatch API request failed: {
+  "service": "veyon-aw-api",
+  "path": "/0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events",
+  "error": {
+    "message": "read ECONNRESET",
+    "name": "Error",
+    "stack": "Error: read ECONNRESET\n    at AxiosError.from (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/core/AxiosError.js:77:24)\n    at RedirectableRequest.handleRequestError (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/adapters/http.js:1161:27)\n    at RedirectableRequest.emit (node:events:521:24)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/core/Axios.js:46:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async ActivityWatchService.request (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:41:24)\n    at async ActivityWatchService.getProductivityMetrics (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:107:24)\n    at async ActivityWatchService.getActivitySummary (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:172:21)\n    at async <anonymous> (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\routes\\activity.ts:41:21)",
+    "config": {
+      "transitional": {
+        "silentJSONParsing": true,
+        "forcedJSONParsing": true,
+        "clarifyTimeoutError": false,
+        "legacyInterceptorReqResOrdering": true
+      },
+      "adapter": [
+        "xhr",
+        "http",
+        "fetch"
+      ],
+      "transformRequest": [
+        null
+      ],
+      "transformResponse": [
+        null
+      ],
+      "timeout": 10000,
+      "xsrfCookieName": "XSRF-TOKEN",
+      "xsrfHeaderName": "X-XSRF-TOKEN",
+      "maxContentLength": -1,
+      "maxBodyLength": -1,
+      "env": {},
+      "headers": {
+        "Accept": "application/json, text/plain, */*",
+        "User-Agent": "axios/1.16.1",
+        "Accept-Encoding": "gzip, compress, deflate, br"
+      },
+      "params": {
+        "start": "2026-05-30T18:30:00.000Z",
+        "end": "2026-05-31T10:10:34.859Z"
+      },
+      "method": "get",
+      "url": "http://localhost:5600/api/0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events",
+      "allowAbsoluteUrls": true
+    },
+    "code": "ECONNRESET"
+  }
+}
+2026-05-31T10:10:34.934Z [[33mwarn[39m]: Failed processing bucket aw-watcher-afk_DESKTOP-B23KJA4: ActivityWatch API error: /0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events {
+  "service": "veyon-aw-api",
+  "stack": "Error: ActivityWatch API error: /0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events\n    at ActivityWatchService.request (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:51:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async ActivityWatchService.getProductivityMetrics (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:107:24)\n    at async ActivityWatchService.getActivitySummary (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:172:21)\n    at async <anonymous> (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\routes\\activity.ts:41:21)"
+}
+2026-05-31T10:10:34.947Z [[32minfo[39m]: ::1 - - [31/May/2026:10:10:34 +0000] "GET /api/activity/summary?period=day HTTP/1.1" 200 99 "-" "curl/8.19.0" 
+2026-05-31T10:10:43.444Z [[32minfo[39m]: ::1 - - [31/May/2026:10:10:43 +0000] "POST /api/auth/login HTTP/1.1" 200 905 "-" "curl/8.19.0" 
+2026-05-31T10:10:43.642Z [[32minfo[39m]: ::1 - - [31/May/2026:10:10:43 +0000] "GET /api/activity/apps?period=day HTTP/1.1" 404 156 "-" "curl/8.19.0" 
+2026-05-31T10:10:43.728Z [[31merror[39m]: ActivityWatch API request failed: {
+  "service": "veyon-aw-api",
+  "path": "/0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events",
+  "error": {
+    "message": "read ECONNRESET",
+    "name": "Error",
+    "stack": "Error: read ECONNRESET\n    at AxiosError.from (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/core/AxiosError.js:77:24)\n    at RedirectableRequest.handleRequestError (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/adapters/http.js:1161:27)\n    at RedirectableRequest.emit (node:events:521:24)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/core/Axios.js:46:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async ActivityWatchService.request (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:41:24)\n    at async ActivityWatchService.getProductivityMetrics (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:107:24)\n    at async ActivityWatchService.getCategoryBreakdown (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:189:21)\n    at async <anonymous> (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\routes\\activity.ts:57:24)",
+    "config": {
+      "transitional": {
+        "silentJSONParsing": true,
+        "forcedJSONParsing": true,
+        "clarifyTimeoutError": false,
+        "legacyInterceptorReqResOrdering": true
+      },
+      "adapter": [
+        "xhr",
+        "http",
+        "fetch"
+      ],
+      "transformRequest": [
+        null
+      ],
+      "transformResponse": [
+        null
+      ],
+      "timeout": 10000,
+      "xsrfCookieName": "XSRF-TOKEN",
+      "xsrfHeaderName": "X-XSRF-TOKEN",
+      "maxContentLength": -1,
+      "maxBodyLength": -1,
+      "env": {},
+      "headers": {
+        "Accept": "application/json, text/plain, */*",
+        "User-Agent": "axios/1.16.1",
+        "Accept-Encoding": "gzip, compress, deflate, br"
+      },
+      "params": {
+        "start": "2026-05-30T18:30:00.000Z",
+        "end": "2026-05-31T10:10:43.717Z"
+      },
+      "method": "get",
+      "url": "http://localhost:5600/api/0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events",
+      "allowAbsoluteUrls": true
+    },
+    "code": "ECONNRESET"
+  }
+}
+2026-05-31T10:10:43.730Z [[33mwarn[39m]: Failed processing bucket aw-watcher-afk_DESKTOP-B23KJA4: ActivityWatch API error: /0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events {
+  "service": "veyon-aw-api",
+  "stack": "Error: ActivityWatch API error: /0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events\n    at ActivityWatchService.request (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:51:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async ActivityWatchService.getProductivityMetrics (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:107:24)\n    at async ActivityWatchService.getCategoryBreakdown (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:189:21)\n    at async <anonymous> (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\routes\\activity.ts:57:24)"
+}
+2026-05-31T10:10:43.743Z [[32minfo[39m]: ::1 - - [31/May/2026:10:10:43 +0000] "GET /api/activity/categories?period=day HTTP/1.1" 200 26 "-" "curl/8.19.0" 
+2026-05-31T10:10:43.830Z [[31merror[39m]: ActivityWatch API request failed: {
+  "service": "veyon-aw-api",
+  "path": "/0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events",
+  "error": {
+    "message": "read ECONNRESET",
+    "name": "Error",
+    "stack": "Error: read ECONNRESET\n    at AxiosError.from (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/core/AxiosError.js:77:24)\n    at RedirectableRequest.handleRequestError (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/adapters/http.js:1161:27)\n    at RedirectableRequest.emit (node:events:521:24)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/core/Axios.js:46:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async ActivityWatchService.request (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:41:24)\n    at async ActivityWatchService.getProductivityMetrics (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:107:24)\n    at async ActivityWatchService.getActivitySummary (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:172:21)\n    at async <anonymous> (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\routes\\dashboard.ts:28:27)",
+    "config": {
+      "transitional": {
+        "silentJSONParsing": true,
+        "forcedJSONParsing": true,
+        "clarifyTimeoutError": false,
+        "legacyInterceptorReqResOrdering": true
+      },
+      "adapter": [
+        "xhr",
+        "http",
+        "fetch"
+      ],
+      "transformRequest": [
+        null
+      ],
+      "transformResponse": [
+        null
+      ],
+      "timeout": 10000,
+      "xsrfCookieName": "XSRF-TOKEN",
+      "xsrfHeaderName": "X-XSRF-TOKEN",
+      "maxContentLength": -1,
+      "maxBodyLength": -1,
+      "env": {},
+      "headers": {
+        "Accept": "application/json, text/plain, */*",
+        "User-Agent": "axios/1.16.1",
+        "Accept-Encoding": "gzip, compress, deflate, br"
+      },
+      "params": {
+        "start": "2026-05-30T18:30:00.000Z",
+        "end": "2026-05-31T10:10:43.822Z"
+      },
+      "method": "get",
+      "url": "http://localhost:5600/api/0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events",
+      "allowAbsoluteUrls": true
+    },
+    "code": "ECONNRESET"
+  }
+}
+2026-05-31T10:10:43.831Z [[33mwarn[39m]: Failed processing bucket aw-watcher-afk_DESKTOP-B23KJA4: ActivityWatch API error: /0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events {
+  "service": "veyon-aw-api",
+  "stack": "Error: ActivityWatch API error: /0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events\n    at ActivityWatchService.request (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:51:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async ActivityWatchService.getProductivityMetrics (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:107:24)\n    at async ActivityWatchService.getActivitySummary (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:172:21)\n    at async <anonymous> (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\routes\\dashboard.ts:28:27)"
+}
+2026-05-31T10:10:43.841Z [[32minfo[39m]: ::1 - - [31/May/2026:10:10:43 +0000] "GET /api/dashboard/stats HTTP/1.1" 200 173 "-" "curl/8.19.0" 
+2026-05-31T10:10:54.537Z [[32minfo[39m]: ::1 - - [31/May/2026:10:10:54 +0000] "POST /api/auth/login HTTP/1.1" 200 905 "-" "curl/8.19.0" 
+2026-05-31T10:10:54.744Z [[31merror[39m]: ActivityWatch API request failed: {
+  "service": "veyon-aw-api",
+  "path": "/0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events",
+  "error": {
+    "message": "read ECONNRESET",
+    "name": "Error",
+    "stack": "Error: read ECONNRESET\n    at AxiosError.from (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/core/AxiosError.js:77:24)\n    at RedirectableRequest.handleRequestError (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/adapters/http.js:1161:27)\n    at RedirectableRequest.emit (node:events:521:24)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/core/Axios.js:46:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async ActivityWatchService.request (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:41:24)\n    at async ActivityWatchService.getProductivityMetrics (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:107:24)\n    at async ActivityWatchService.getTopApplications (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:184:21)\n    at async <anonymous> (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\routes\\activity.ts:49:18)",
+    "config": {
+      "transitional": {
+        "silentJSONParsing": true,
+        "forcedJSONParsing": true,
+        "clarifyTimeoutError": false,
+        "legacyInterceptorReqResOrdering": true
+      },
+      "adapter": [
+        "xhr",
+        "http",
+        "fetch"
+      ],
+      "transformRequest": [
+        null
+      ],
+      "transformResponse": [
+        null
+      ],
+      "timeout": 10000,
+      "xsrfCookieName": "XSRF-TOKEN",
+      "xsrfHeaderName": "X-XSRF-TOKEN",
+      "maxContentLength": -1,
+      "maxBodyLength": -1,
+      "env": {},
+      "headers": {
+        "Accept": "application/json, text/plain, */*",
+        "User-Agent": "axios/1.16.1",
+        "Accept-Encoding": "gzip, compress, deflate, br"
+      },
+      "params": {
+        "start": "2026-05-30T18:30:00.000Z",
+        "end": "2026-05-31T10:10:54.734Z"
+      },
+      "method": "get",
+      "url": "http://localhost:5600/api/0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events",
+      "allowAbsoluteUrls": true
+    },
+    "code": "ECONNRESET"
+  }
+}
+2026-05-31T10:10:54.745Z [[33mwarn[39m]: Failed processing bucket aw-watcher-afk_DESKTOP-B23KJA4: ActivityWatch API error: /0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events {
+  "service": "veyon-aw-api",
+  "stack": "Error: ActivityWatch API error: /0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events\n    at ActivityWatchService.request (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:51:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async ActivityWatchService.getProductivityMetrics (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:107:24)\n    at async ActivityWatchService.getTopApplications (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:184:21)\n    at async <anonymous> (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\routes\\activity.ts:49:18)"
+}
+2026-05-31T10:10:54.756Z [[32minfo[39m]: ::1 - - [31/May/2026:10:10:54 +0000] "GET /api/activity/applications?period=day HTTP/1.1" 200 26 "-" "curl/8.19.0" 
+2026-05-31T10:10:54.834Z [[31merror[39m]: ActivityWatch API request failed: {
+  "service": "veyon-aw-api",
+  "path": "/0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events",
+  "error": {
+    "message": "read ECONNRESET",
+    "name": "Error",
+    "stack": "Error: read ECONNRESET\n    at AxiosError.from (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/core/AxiosError.js:77:24)\n    at RedirectableRequest.handleRequestError (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/adapters/http.js:1161:27)\n    at RedirectableRequest.emit (node:events:521:24)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (file:///D:/QMS/QMS_Developement_Folder/veyon-activitywatch-dashboard/node_modules/axios/lib/core/Axios.js:46:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async ActivityWatchService.request (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:41:24)\n    at async ActivityWatchService.getProductivityMetrics (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:107:24)\n    at async <anonymous> (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\routes\\activity.ts:33:21)",
+    "config": {
+      "transitional": {
+        "silentJSONParsing": true,
+        "forcedJSONParsing": true,
+        "clarifyTimeoutError": false,
+        "legacyInterceptorReqResOrdering": true
+      },
+      "adapter": [
+        "xhr",
+        "http",
+        "fetch"
+      ],
+      "transformRequest": [
+        null
+      ],
+      "transformResponse": [
+        null
+      ],
+      "timeout": 10000,
+      "xsrfCookieName": "XSRF-TOKEN",
+      "xsrfHeaderName": "X-XSRF-TOKEN",
+      "maxContentLength": -1,
+      "maxBodyLength": -1,
+      "env": {},
+      "headers": {
+        "Accept": "application/json, text/plain, */*",
+        "User-Agent": "axios/1.16.1",
+        "Accept-Encoding": "gzip, compress, deflate, br"
+      },
+      "params": {
+        "start": "2026-05-30T18:30:00.000Z",
+        "end": "2026-05-31T10:10:54.825Z"
+      },
+      "method": "get",
+      "url": "http://localhost:5600/api/0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events",
+      "allowAbsoluteUrls": true
+    },
+    "code": "ECONNRESET"
+  }
+}
+2026-05-31T10:10:54.835Z [[33mwarn[39m]: Failed processing bucket aw-watcher-afk_DESKTOP-B23KJA4: ActivityWatch API error: /0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events {
+  "service": "veyon-aw-api",
+  "stack": "Error: ActivityWatch API error: /0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events\n    at ActivityWatchService.request (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:51:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async ActivityWatchService.getProductivityMetrics (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\services\\activitywatch.ts:107:24)\n    at async <anonymous> (D:\\QMS\\QMS_Developement_Folder\\veyon-activitywatch-dashboard\\apps\\api\\src\\routes\\activity.ts:33:21)"
+}
+2026-05-31T10:10:54.845Z [[32minfo[39m]: ::1 - - [31/May/2026:10:10:54 +0000] "GET /api/activity/metrics?period=day HTTP/1.1" 200 1250 "-" "curl/8.19.0" 
+2026-05-31T10:17:40.429Z [[32minfo[39m]: ::1 - - [31/May/2026:10:17:40 +0000] "POST /api/auth/login HTTP/1.1" 200 905 "-" "curl/8.19.0" 
+2026-05-31T10:17:55.567Z [[31merror[39m]: Veyon command failed: {
+  "service": "veyon-aw-api",
+  "command": "feature start \"PC-001\" ScreenLock",
+  "error": {
+    "code": null,
+    "killed": true,
+    "signal": "SIGTERM",
+    "cmd": "\"C:\\Program Files\\Veyon\\veyon-cli.exe\" feature start \"PC-001\" ScreenLock",
+    "stdout": "",
+    "stderr": ""
+  }
+}
+2026-05-31T10:17:55.569Z [[32minfo[39m]: ::1 - - [31/May/2026:10:17:55 +0000] "POST /api/veyon/screen/lock HTTP/1.1" 200 95 "-" "curl/8.19.0" 
+2026-05-31T10:18:03.121Z [[32minfo[39m]: ::1 - - [31/May/2026:10:18:03 +0000] "GET /api/health HTTP/1.1" 200 54 "-" "curl/8.19.0" 
+4:02:28 pm [tsx] change in ./src\config\index.ts Restarting...
+cnode:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::4000
+    at Server.setupListenHandle [as _listen2] (node:net:2008:16)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at <anonymous> (D:\QMS\QMS_Developement_Folder\veyon-activitywatch-dashboard\apps\api\src\index.ts:82:12)
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async node:internal/modules/esm/loader:639:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:2044:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 4000
+}
+
+Node.js v24.15.0
+4:02:41 pm [tsx] change in ./src\services\veyon.ts Rerunning...
+c2026-05-31T10:32:47.164Z [[33mwarn[39m]: Veyon private key not found at 
+node:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::4000
+    at Server.setupListenHandle [as _listen2] (node:net:2008:16)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at <anonymous> (D:\QMS\QMS_Developement_Folder\veyon-activitywatch-dashboard\apps\api\src\index.ts:82:12)
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async node:internal/modules/esm/loader:639:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:2044:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 4000
+}
+
+Node.js v24.15.0
+4:11:13 pm [tsx] change in ./src\services\veyon.ts Rerunning...
+c4:11:19 pm [tsx] change in ./src\services\veyon.ts Restarting...
+cnode:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::4000
+    at Server.setupListenHandle [as _listen2] (node:net:2008:16)
+    at listenInCluster (node:net:2065:12)
+    at Server.listen (node:net:2170:7)
+    at <anonymous> (D:\QMS\QMS_Developement_Folder\veyon-activitywatch-dashboard\apps\api\src\index.ts:82:12)
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async node:internal/modules/esm/loader:639:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:2044:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 4000
+}
+
+Node.js v24.15.0

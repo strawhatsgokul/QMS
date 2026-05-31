@@ -1,0 +1,53 @@
+
+> veyon-activitywatch-dashboard@0.1.0 dev:web
+> npm run dev -w apps/web
+
+
+> @veyon-aw/web@0.1.0 dev
+> next dev --port 3000
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 6.5s
+ ○ Compiling / ...
+ ✓ Compiled / in 11s (897 modules)
+ GET / 200 in 11748ms
+ ✓ Compiled in 964ms (407 modules)
+ ○ Compiling /login ...
+ ✓ Compiled /login in 1077ms (899 modules)
+ GET /login 200 in 1537ms
+(node:1936) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ GET /login 200 in 114ms
+ GET /login 200 in 50ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 800ms (851 modules)
+ GET /dashboard 404 in 1089ms
+ ○ Compiling /analytics ...
+ ✓ Compiled /analytics in 7.5s (1944 modules)
+ GET /analytics 200 in 8151ms
+ ○ Compiling /computers ...
+ ✓ Compiled /computers in 1329ms (1959 modules)
+ GET /computers 200 in 1566ms
+ ○ Compiling /users ...
+ ✓ Compiled /users in 889ms (1971 modules)
+ GET /users 200 in 1017ms
+ ○ Compiling /settings ...
+ ✓ Compiled /settings in 881ms (1985 modules)
+ GET /settings 200 in 981ms
+ ○ Compiling / ...
+ ✓ Compiled / in 1121ms (1053 modules)
+ GET / 200 in 1295ms
+ GET / 200 in 95ms
+ GET /login 200 in 188ms
+ GET /login 200 in 64ms
+ ○ Compiling /computers/[id] ...
+ ✓ Compiled /computers in 4.1s (1490 modules)
+ ○ Compiling /analytics ...
+ ✓ Compiled /analytics in 651ms (1050 modules)
+ ○ Compiling /users ...
+ ✓ Compiled /users in 596ms (1057 modules)
+ ○ Compiling /settings ...
+ ✓ Compiled /settings in 724ms (1065 modules)
