@@ -33,7 +33,7 @@
     "db:push": "npm run db:push -w apps/api",
     "db:migrate": "npm run db:migrate -w apps/api",
     "db:seed": "npm run db:seed -w apps/api",
-    "postinstall": "npm run build:shared"
+    "postinstall": "npm run build:shared && npm run db:generate"
   },
   "workspaces": [
     "apps/*",
