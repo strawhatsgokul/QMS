@@ -92,7 +92,7 @@ if (-not (Test-Path $envFile)) {
 
   $agentKey = "agent-" + -join ((65..90) + (97..122) + (48..57) | Get-Random -Count 24 | ForEach-Object { [char]$_ })
 
-  @"
+  $envContent = @"
 # Server
 PORT=$API_PORT
 NODE_ENV=production
@@ -124,7 +124,8 @@ ENCRYPTION_KEY="${encKey}"
 
 # CORS
 CORS_ORIGIN="http://${SERVER_IP}:${WEB_PORT}"
-"@ | Set-Content -Path $envFile -Encoding UTF8
+"@
+  $envContent | Set-Content -Path $envFile -Encoding UTF8
 
   Write-Ok ".env created at $envFile"
   Write-Warn "AGENT_KEY=${agentKey} — copy this to your agent config"
