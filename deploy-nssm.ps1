@@ -14,7 +14,7 @@ $BRANCH      = "Developement"
 $INSTALL_DIR = $SCRIPT_DIR
 $API_PORT    = 4000
 $WEB_PORT    = 3000
-$SERVER_IP   = "192.168.29.17"
+$SERVER_IP   = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -ne 'Loopback' -and $_.PrefixOrigin -ne 'WellKnown' } | Select-Object -First 1).IPAddress
 
 # Find git (common install locations)
 $GIT_BIN = (Get-Command git -ErrorAction SilentlyContinue).Source
