@@ -38,6 +38,14 @@ $NPM_BIN  = (Get-Command npm -ErrorAction SilentlyContinue).Source
 Write-Host "=== QMS Dashboard NSSM Deployment ===" -ForegroundColor Cyan
 Write-Host "[INFO] Checking prerequisites..." -ForegroundColor Cyan
 
+# Require Administrator (NSSM and firewall need elevation)
+$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+  Write-Host "[ERROR] This script must be run as Administrator. Restart PowerShell with 'Run as Administrator' and try again." -ForegroundColor Red
+  exit 1
+}
+Write-Host "[OK] Running as Administrator" -ForegroundColor Green
+
 if (-not $NODE_BIN) {
   Write-Host "[ERROR] Node.js not found. Install from https://nodejs.org/" -ForegroundColor Red
   exit 1
@@ -235,6 +243,10 @@ Write-Host "[OK] Build outputs verified" -ForegroundColor Green
 Write-Host "[INFO] Creating NSSM services..." -ForegroundColor Cyan
 
 nssm install QMS-API "$NODE_BIN"
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "[ERROR] Failed to install QMS-API service (exit $LASTEXITCODE). Run as Administrator." -ForegroundColor Red
+  exit 1
+}
 nssm set QMS-API AppParameters "$INSTALL_DIR\apps\api\dist\index.js"
 nssm set QMS-API AppDirectory "$INSTALL_DIR\apps\api"
 nssm set QMS-API AppStdout "$INSTALL_DIR\apps\api\logs\api-out.log"
@@ -248,6 +260,10 @@ nssm set QMS-API Description "Backend API for QMS Dashboard"
 Write-Host "[OK] QMS-API service created" -ForegroundColor Green
 
 nssm install QMS-WEB "$NPM_BIN"
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "[ERROR] Failed to install QMS-WEB service (exit $LASTEXITCODE). Run as Administrator." -ForegroundColor Red
+  exit 1
+}
 nssm set QMS-WEB AppParameters "run start"
 nssm set QMS-WEB AppDirectory "$INSTALL_DIR\apps\web"
 nssm set QMS-WEB AppStdout "$INSTALL_DIR\apps\web\logs\web-out.log"
