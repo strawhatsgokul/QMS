@@ -21,26 +21,29 @@ if (-not $SERVER_IP) { $SERVER_IP = "127.0.0.1" }
 # Find git (common install locations)
 $GIT_BIN = (Get-Command git -ErrorAction SilentlyContinue).Source
 if (-not $GIT_BIN) {
+  $localAppData = [Environment]::GetFolderPath('LocalApplicationData')
   $candidates = @(
     "$env:ProgramFiles\Git\bin\git.exe",
     "$env:ProgramFiles\Git\cmd\git.exe",
     "$env:ProgramFiles\Git\mingw64\bin\git.exe",
     "${env:ProgramFiles(x86)}\Git\bin\git.exe",
     "${env:ProgramFiles(x86)}\Git\cmd\git.exe",
-    "$env:LOCALAPPDATA\Programs\Git\cmd\git.exe",
-    "$env:LOCALAPPDATA\Programs\Git\bin\git.exe",
-    "$env:LOCALAPPDATA\Git\cmd\git.exe",
-    "$env:LOCALAPPDATA\Git\bin\git.exe",
-    "$env:USERPROFILE\scoop\shims\git.exe",
-    "$env:USERPROFILE\AppData\Local\Programs\Git\cmd\git.exe",
-    "$env:USERPROFILE\AppData\Local\Programs\Git\bin\git.exe"
+    "$localAppData\Programs\Git\cmd\git.exe",
+    "$localAppData\Programs\Git\bin\git.exe",
+    "$localAppData\Git\cmd\git.exe",
+    "$localAppData\Git\bin\git.exe"
   )
   foreach ($c in $candidates) {
     if (Test-Path $c) { $GIT_BIN = $c; break }
   }
-  # Last resort: scan Program Files
   if (-not $GIT_BIN) {
-    $searchPaths = @("$env:ProgramFiles\Git", "$env:LOCALAPPDATA\Programs\Git", "$env:LOCALAPPDATA\Git")
+    $searchPaths = @(
+      "$env:ProgramFiles\Git",
+      "$localAppData\Programs\Git",
+      "$localAppData\Git",
+      "$env:USERPROFILE\AppData\Local\Programs\Git",
+      "$env:USERPROFILE\AppData\Local\Git"
+    )
     foreach ($sp in $searchPaths) {
       $found = Get-ChildItem -Path $sp -Recurse -Filter "git.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
       if ($found) { $GIT_BIN = $found.FullName; break }
