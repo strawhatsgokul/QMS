@@ -199,7 +199,7 @@ Write-Host "[OK] Agent EXE built: $INSTALL_DIR\dist\qms-agent.exe" -ForegroundCo
 # 9. Stop existing NSSM services if running
 # --------------------------------------------------
 @("QMS-API", "QMS-WEB") | ForEach-Object {
-  $svc = nssm status $_ 2>&1
+  $svc = nssm status $_ 2>$null
   if ($LASTEXITCODE -eq 0) {
     Write-Host "[INFO] Stopping existing service $_..." -ForegroundColor Cyan
     nssm stop $_ 2>$null
