@@ -3,7 +3,7 @@
   Deploy QMS Dashboard on Windows Server via NSSM (no Docker).
 #>
 
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"
 
 # Auto-detect repo root (where this script lives)
 $SCRIPT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -14,7 +14,9 @@ $BRANCH      = "Developement"
 $INSTALL_DIR = $SCRIPT_DIR
 $API_PORT    = 4000
 $WEB_PORT    = 3000
-$SERVER_IP   = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -ne 'Loopback' -and $_.PrefixOrigin -ne 'WellKnown' } | Select-Object -First 1).IPAddress
+$adapterFilter = { $_.InterfaceAlias -ne 'Loopback' -and $_.PrefixOrigin -ne 'WellKnown' -and $_.InterfaceAlias -notmatch 'vEthernet|Hyper-V|Docker|VirtualBox|VMware|Bluetooth|Local Area Connection\*' }
+$SERVER_IP   = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object $adapterFilter | Select-Object -First 1).IPAddress
+if (-not $SERVER_IP) { $SERVER_IP = "127.0.0.1" }
 
 # Find git (common install locations)
 $GIT_BIN = (Get-Command git -ErrorAction SilentlyContinue).Source
@@ -135,7 +137,7 @@ if (-not (Test-Path $envFile)) {
   $lines += "# CORS"
   $lines += "CORS_ORIGIN=http://${SERVER_IP}:${WEB_PORT}"
 
-  $lines -join [Environment]::NewLine | Set-Content -Path $envFile -Encoding UTF8 -NoNewline
+  ($lines -join [Environment]::NewLine) + [Environment]::NewLine | Set-Content -Path $envFile -Encoding UTF8 -NoNewline
 
   Write-Host "[OK] .env created at $envFile" -ForegroundColor Green
   Write-Host "[WARN] AGENT_KEY=$agentKey -- copy this to your agent config" -ForegroundColor Yellow
@@ -194,6 +196,7 @@ if ($LASTEXITCODE -ne 0) {
   exit 1
 }
 Write-Host "[OK] Agent EXE built: $INSTALL_DIR\dist\qms-agent.exe" -ForegroundColor Green
+Set-Location $INSTALL_DIR
 
 # --------------------------------------------------
 # 9. Stop existing NSSM services if running
@@ -208,7 +211,26 @@ Write-Host "[OK] Agent EXE built: $INSTALL_DIR\dist\qms-agent.exe" -ForegroundCo
 }
 
 # --------------------------------------------------
-# 10. Create NSSM services
+# 10. Prepare log directories and validate builds
+# --------------------------------------------------
+Write-Host "[INFO] Preparing log directories..." -ForegroundColor Cyan
+@("$INSTALL_DIR\apps\api\logs", "$INSTALL_DIR\apps\web\logs") | ForEach-Object {
+  if (-not (Test-Path $_)) { New-Item -ItemType Directory -Path $_ -Force | Out-Null }
+}
+Write-Host "[OK] Log directories ready" -ForegroundColor Green
+
+if (-not (Test-Path "$INSTALL_DIR\apps\api\dist\index.js")) {
+  Write-Host "[ERROR] API build output not found at apps\api\dist\index.js" -ForegroundColor Red
+  exit 1
+}
+if (-not (Test-Path "$INSTALL_DIR\apps\web\.next")) {
+  Write-Host "[ERROR] Web build output not found at apps\web\.next" -ForegroundColor Red
+  exit 1
+}
+Write-Host "[OK] Build outputs verified" -ForegroundColor Green
+
+# --------------------------------------------------
+# 11. Create NSSM services
 # --------------------------------------------------
 Write-Host "[INFO] Creating NSSM services..." -ForegroundColor Cyan
 
@@ -239,19 +261,37 @@ nssm set QMS-WEB Description "Next.js frontend for QMS Dashboard"
 Write-Host "[OK] QMS-WEB service created" -ForegroundColor Green
 
 # --------------------------------------------------
-# 11. Start services
+# 12. Start services
 # --------------------------------------------------
 Write-Host "[INFO] Starting services..." -ForegroundColor Cyan
 nssm start QMS-API
-Write-Host "[OK] QMS-API started" -ForegroundColor Green
+if ($LASTEXITCODE -ne 0) { Write-Host "[WARN] QMS-API start returned exit $LASTEXITCODE" -ForegroundColor Yellow }
 
 Start-Sleep -Seconds 5
 
 nssm start QMS-WEB
-Write-Host "[OK] QMS-WEB started" -ForegroundColor Green
+if ($LASTEXITCODE -ne 0) { Write-Host "[WARN] QMS-WEB start returned exit $LASTEXITCODE" -ForegroundColor Yellow }
 
 # --------------------------------------------------
-# 12. Health check
+# 13. Windows Firewall rules
+# --------------------------------------------------
+Write-Host "[INFO] Configuring Windows Firewall..." -ForegroundColor Cyan
+$fwRules = @(
+  @{ Name = "QMS-API"; Port = $API_PORT }
+  @{ Name = "QMS-WEB"; Port = $WEB_PORT }
+)
+foreach ($rule in $fwRules) {
+  $existing = Get-NetFirewallRule -DisplayName $rule.Name -ErrorAction SilentlyContinue
+  if (-not $existing) {
+    New-NetFirewallRule -DisplayName $rule.Name -Direction Inbound -LocalPort $rule.Port -Protocol TCP -Action Allow -ErrorAction SilentlyContinue | Out-Null
+    Write-Host "[OK] Firewall rule '$($rule.Name)' created for port $($rule.Port)" -ForegroundColor Green
+  } else {
+    Write-Host "[INFO] Firewall rule '$($rule.Name)' already exists" -ForegroundColor Cyan
+  }
+}
+
+# --------------------------------------------------
+# 14. Health check
 # --------------------------------------------------
 Write-Host "[INFO] Running health check..." -ForegroundColor Cyan
 Start-Sleep -Seconds 8
@@ -279,7 +319,7 @@ try {
 }
 
 # --------------------------------------------------
-# 13. Summary
+# 15. Summary
 # --------------------------------------------------
 Write-Host ""
 Write-Host "===========================================" -ForegroundColor Green
