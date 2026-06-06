@@ -5,14 +5,33 @@
 
 $ErrorActionPreference = "Stop"
 
+# Auto-detect repo root (where this script lives)
+$SCRIPT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Path
+Set-Location $SCRIPT_DIR
+
 $REPO_URL    = "https://github.com/strawhatsgokul/QMS.git"
 $BRANCH      = "Developement"
-$INSTALL_DIR = "C:\QMS"
+$INSTALL_DIR = $SCRIPT_DIR
 $API_PORT    = 4000
 $WEB_PORT    = 3000
 $SERVER_IP   = "192.168.29.17"
-$NODE_BIN    = (Get-Command node).Source
-$NPM_BIN     = (Get-Command npm).Source
+
+# Find git (common install locations)
+$GIT_BIN = (Get-Command git -ErrorAction SilentlyContinue).Source
+if (-not $GIT_BIN) {
+  $candidates = @(
+    "$env:ProgramFiles\Git\bin\git.exe",
+    "${env:ProgramFiles(x86)}\Git\bin\git.exe",
+    "$env:LOCALAPPDATA\Programs\Git\bin\git.exe",
+    "$env:USERPROFILE\scoop\shims\git.exe"
+  )
+  foreach ($c in $candidates) {
+    if (Test-Path $c) { $GIT_BIN = $c; break }
+  }
+}
+
+$NODE_BIN = (Get-Command node -ErrorAction SilentlyContinue).Source
+$NPM_BIN  = (Get-Command npm -ErrorAction SilentlyContinue).Source
 
 Write-Host "=== QMS Dashboard NSSM Deployment ===" -ForegroundColor Cyan
 Write-Host "[INFO] Checking prerequisites..." -ForegroundColor Cyan
@@ -33,16 +52,19 @@ Write-Host "[OK] NSSM at $($nssmPath.Source)" -ForegroundColor Green
 # --------------------------------------------------
 # 2. Clone / pull repo
 # --------------------------------------------------
+if (-not $GIT_BIN) {
+  Write-Host "[ERROR] Git not found. Install from https://git-scm.com/" -ForegroundColor Red
+  exit 1
+}
 if (Test-Path "$INSTALL_DIR\.git") {
   Write-Host "[INFO] Repository exists -- pulling latest..." -ForegroundColor Cyan
-  Set-Location $INSTALL_DIR
-  git fetch origin
-  git reset --hard "origin/$BRANCH"
+  & $GIT_BIN fetch origin
+  & $GIT_BIN reset --hard "origin/$BRANCH"
 } else {
-  Write-Host "[INFO] Cloning repository..." -ForegroundColor Cyan
-  git clone --branch $BRANCH $REPO_URL $INSTALL_DIR
-  Set-Location $INSTALL_DIR
+  Write-Host "[INFO] Cloning repository to $INSTALL_DIR..." -ForegroundColor Cyan
+  & $GIT_BIN clone --branch $BRANCH $REPO_URL "$INSTALL_DIR"
 }
+Set-Location $INSTALL_DIR
 Write-Host "[OK] Repository at $INSTALL_DIR (branch: $BRANCH)" -ForegroundColor Green
 
 # --------------------------------------------------
@@ -165,7 +187,8 @@ if ($LASTEXITCODE -ne 0) {
   Write-Host "[ERROR] Agent build failed" -ForegroundColor Red
   exit 1
 }
-pwsh -File build-exe.ps1 -OutDir "$INSTALL_DIR\dist"
+$shell = if (Get-Command pwsh -ErrorAction SilentlyContinue) { "pwsh" } else { "powershell" }
+& $shell -File build-exe.ps1 -OutDir "$INSTALL_DIR\dist"
 if ($LASTEXITCODE -ne 0) {
   Write-Host "[ERROR] Agent EXE build failed" -ForegroundColor Red
   exit 1
