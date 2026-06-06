@@ -2753,3 +2753,193 @@
 {"level":"warn","message":"AlertMonitor: failed to check bucket aw-watcher-window_DESKTOP-B23KJA4:","service":"veyon-aw-api","timestamp":"2026-05-31T17:21:51.629Z"}
 {"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-05-31T17:22:21.626Z"}
 {"level":"warn","message":"AlertMonitor: failed to check bucket aw-watcher-window_DESKTOP-B23KJA4:","service":"veyon-aw-api","timestamp":"2026-05-31T17:22:21.634Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:01.739Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:02.780Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:02.781Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:02.859Z"}
+{"level":"info","message":"Seeded 14 default watch rules","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:02.900Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:02.901Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:02.906Z"}
+{"level":"info","message":"Seeded 6 demo notifications for admin@qserveits.com","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:03.037Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:41.623Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:42.608Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:42.609Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:42.688Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:42.709Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:15:42.716Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:03.575Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:04.542Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:04.543Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:04.618Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:04.635Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:04.641Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:34.645Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:42.352Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:43.362Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:43.362Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:43.433Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:43.450Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:43.457Z"}
+{"level":"info","message":"GET /api/health 200 54 - 9.514 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:17:46.175Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:13.465Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:20.670Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:21.646Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:21.647Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:21.725Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:21.747Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:21.755Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:51.756Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:50.897Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:51.886Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:51.887Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:51.958Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:51.979Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:51.986Z"}
+{"level":"info","message":"GET /api/health 200 54 - 10.081 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:18:53.320Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:19:41.466Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:19:41.833Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:19:41.834Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:19:41.857Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:19:41.868Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:19:41.870Z"}
+{"level":"info","message":"GET /api/health 200 54 - 2.461 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:19:52.500Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:11.671Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:12.053Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:12.053Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:12.078Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:12.086Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:12.089Z"}
+{"level":"info","message":"GET /api/health 200 54 - 3.035 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:22.710Z"}
+{"level":"info","message":"POST /api/auth/login 200 828 - 292.197 ms {\"email\":\"admin@qserveits.com\",\"password\":\"***\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:23.036Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:31.733Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:32.067Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:32.068Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:32.091Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:32.100Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:32.104Z"}
+{"level":"info","message":"GET /api/health 200 54 - 2.458 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:42.837Z"}
+{"level":"info","message":"POST /api/auth/login 200 850 - 279.296 ms {\"email\":\"admin@qserveits.com\",\"password\":\"***\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:43.166Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:54.295Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:54.648Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:54.648Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:54.670Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:54.679Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:20:54.682Z"}
+{"level":"info","message":"GET /api/health 200 54 - 2.538 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:05.363Z"}
+{"level":"info","message":"POST /api/auth/login 200 850 - 276.252 ms {\"email\":\"admin@qserveits.com\",\"password\":\"***\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:05.690Z"}
+{"level":"info","message":"GET /api/computers 200 573 - 6.067 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:05.715Z"}
+{"level":"warn","message":"Redis connection error (caching disabled):","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:05.731Z"}
+{"level":"warn","message":"Redis connection error (caching disabled):","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:05.935Z"}
+{"level":"warn","message":"Redis connection error (caching disabled):","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:06.340Z"}
+{"level":"warn","message":"Redis connection error (caching disabled):","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:06.949Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:06.953Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets/aw-watcher-afk_DESKTOP-B23KJA4/events","params":{"end":"2026-06-06T12:21:06.953Z","start":"2026-06-05T18:30:00.000Z"},"service":"veyon-aw-api","timestamp":"2026-06-06T12:21:06.968Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets/aw-watcher-window_DESKTOP-B23KJA4/events","params":{"end":"2026-06-06T12:21:06.953Z","start":"2026-06-05T18:30:00.000Z"},"service":"veyon-aw-api","timestamp":"2026-06-06T12:21:06.980Z"}
+{"level":"info","message":"GET /api/dashboard/stats 200 1791 - 1270.604 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:06.998Z"}
+{"level":"info","message":"GET /api/auth/me 200 328 - 3.369 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:07.009Z"}
+{"level":"info","message":"POST /api/auth/change-password 200 606 - 489.179 ms {\"currentPassword\":\"admin\",\"newPassword\":\"***\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:07.506Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:20.993Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:21.352Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:21.352Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:21.376Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:21.385Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:21.388Z"}
+{"level":"info","message":"GET /api/health 200 54 - 3.291 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:21:42.692Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:18.354Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:18.810Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:18.810Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:18.836Z"}
+{"level":"info","message":"Seeded 14 default watch rules","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:18.873Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:18.873Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:18.878Z"}
+{"level":"info","message":"Seeded 6 demo notifications for admin@qserveits.com","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:18.947Z"}
+{"level":"info","message":"GET /api/health 200 54 - 4.698 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:29.255Z"}
+{"level":"info","message":"POST /api/auth/login 200 828 - 419.920 ms {\"email\":\"admin@qserveits.com\",\"password\":\"***\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:29.744Z"}
+{"level":"info","message":"GET /api/computers 200 573 - 11.997 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:29.773Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:40.414Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:40.868Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:40.869Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:40.900Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:40.910Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:40.913Z"}
+{"level":"info","message":"Agent registered: TEST-PC-01 (192.168.29.50) → bbeea9a6-8798-485e-93a7-29d707fead31","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:51.339Z"}
+{"level":"info","message":"POST /api/v1/agent/register 200 293 - 35.290 ms {\"hostname\":\"TEST-PC-01\",\"ipAddress\":\"192.168.29.50\",\"macAddress\":\"AA:BB:CC:DD:EE:01\",\"os\":\"Windows 10 Pro\",\"version\":\"1.0.0\",\"agentKey\":\"test-agent-key-2026\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:51.342Z"}
+{"level":"info","message":"POST /api/v1/agent/heartbeat 200 45 - 25.011 ms {\"cpuUsage\":45.2,\"memoryUsage\":62.1,\"activeWindow\":\"Code.exe\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:51.422Z"}
+{"level":"info","message":"GET /api/v1/agent/commands 200 26 - 4.507 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:51.438Z"}
+{"error":"Veyon private key not configured on server","level":"error","message":"Unhandled error:","service":"veyon-aw-api","stack":"AppError: Veyon private key not configured on server\n    at file:///D:/QMS/QMS_Repo_Check/apps/api/dist/routes/agent.js:110:19\n    at Layer.handle [as handle_request] (D:\\QMS\\QMS_Repo_Check\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (D:\\QMS\\QMS_Repo_Check\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at authenticateAgent (file:///D:/QMS/QMS_Repo_Check/apps/api/dist/routes/agent.js:50:9)\n    at Layer.handle [as handle_request] (D:\\QMS\\QMS_Repo_Check\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (D:\\QMS\\QMS_Repo_Check\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (D:\\QMS\\QMS_Repo_Check\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (D:\\QMS\\QMS_Repo_Check\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at D:\\QMS\\QMS_Repo_Check\\node_modules\\express\\lib\\router\\index.js:284:15\n    at router.process_params (D:\\QMS\\QMS_Repo_Check\\node_modules\\express\\lib\\router\\index.js:346:12)","timestamp":"2026-06-06T12:28:51.458Z"}
+{"level":"info","message":"GET /api/v1/agent/veyon-config 404 114 - 2.667 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:28:51.460Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:02.593Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:02.942Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:02.943Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:02.966Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:02.975Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:02.978Z"}
+{"level":"info","message":"POST /api/auth/login 200 850 - 323.612 ms {\"email\":\"admin@qserveits.com\",\"password\":\"***\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:14.001Z"}
+{"level":"info","message":"Agent registered: TEST-PC-01 (192.168.29.50) → bbeea9a6-8798-485e-93a7-29d707fead31","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:14.051Z"}
+{"level":"info","message":"POST /api/v1/agent/register 200 293 - 18.706 ms {\"hostname\":\"TEST-PC-01\",\"ipAddress\":\"192.168.29.50\",\"agentKey\":\"test-agent-key-2026\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:14.053Z"}
+{"level":"info","message":"POST /api/veyon/screen/lock 200 70 - 9.119 ms {\"computerIds\":[\"comp-local\"]}","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:14.077Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:25.807Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:26.176Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:26.176Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:26.201Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:26.209Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:26.213Z"}
+{"level":"info","message":"Agent registered: TEST-PC-01 (192.168.29.50) → bbeea9a6-8798-485e-93a7-29d707fead31","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:36.822Z"}
+{"level":"info","message":"POST /api/v1/agent/register 200 293 - 30.277 ms {\"hostname\":\"TEST-PC-01\",\"ipAddress\":\"192.168.29.50\",\"agentKey\":\"test-agent-key-2026\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:36.825Z"}
+{"level":"info","message":"GET /api/v1/agent/commands 200 26 - 3.342 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:36.860Z"}
+{"level":"info","message":"POST /api/auth/login 200 850 - 263.682 ms {\"email\":\"admin@qserveits.com\",\"password\":\"***\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:37.140Z"}
+{"level":"info","message":"POST /api/veyon/screen/lock 200 70 - 7.380 ms {\"computerIds\":[\"comp-local\"]}","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:37.154Z"}
+{"level":"info","message":"GET /api/v1/agent/commands 200 26 - 3.045 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:37.164Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:53.994Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:54.393Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:54.393Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:54.417Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:54.425Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:29:54.429Z"}
+{"level":"info","message":"Agent registered: TEST-PC-01 (192.168.29.50) → bbeea9a6-8798-485e-93a7-29d707fead31","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:05.105Z"}
+{"level":"info","message":"POST /api/v1/agent/register 200 293 - 28.343 ms {\"hostname\":\"TEST-PC-01\",\"ipAddress\":\"192.168.29.50\",\"agentKey\":\"test-agent-key-2026\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:05.108Z"}
+{"level":"info","message":"POST /api/v1/agent/heartbeat 200 45 - 12.297 ms {\"cpuUsage\":30,\"memoryUsage\":50,\"activeWindow\":\"explorer.exe\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:05.156Z"}
+{"level":"info","message":"POST /api/auth/login 200 850 - 256.287 ms {\"email\":\"admin@qserveits.com\",\"password\":\"***\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:05.426Z"}
+{"level":"info","message":"POST /api/veyon/screen/lock 200 70 - 5.635 ms {\"computerIds\":[\"comp-local\"]}","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:05.440Z"}
+{"level":"info","message":"GET /api/v1/agent/commands 200 26 - 2.349 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:05.454Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:24.481Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:24.852Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:24.853Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:24.876Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:24.893Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:24.896Z"}
+{"level":"info","message":"Agent registered: TEST-PC-01 (192.168.29.50) → bbeea9a6-8798-485e-93a7-29d707fead31","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:35.583Z"}
+{"level":"info","message":"POST /api/v1/agent/register 200 293 - 28.133 ms {\"hostname\":\"TEST-PC-01\",\"ipAddress\":\"192.168.29.50\",\"agentKey\":\"test-agent-key-2026\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:35.587Z"}
+{"level":"info","message":"POST /api/v1/agent/heartbeat 200 45 - 10.747 ms {\"cpuUsage\":30,\"memoryUsage\":50,\"activeWindow\":\"explorer.exe\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:35.624Z"}
+{"level":"info","message":"GET /api/v1/agent/commands 200 26 - 3.082 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:35.640Z"}
+{"level":"info","message":"POST /api/auth/login 200 850 - 255.741 ms {\"email\":\"admin@qserveits.com\",\"password\":\"***\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:35.910Z"}
+{"level":"info","message":"POST /api/veyon/screen/lock 200 70 - 5.131 ms {\"computerIds\":[\"comp-local\"]}","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:35.923Z"}
+{"level":"info","message":"GET /api/v1/agent/commands 200 26 - 1.589 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:35.937Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:48.766Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:49.129Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:49.129Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:49.154Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:49.162Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:49.167Z"}
+{"level":"info","message":"Agent registered: TEST-PC-01 (192.168.29.50) → bbeea9a6-8798-485e-93a7-29d707fead31","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:59.881Z"}
+{"level":"info","message":"POST /api/v1/agent/register 200 293 - 28.218 ms {\"hostname\":\"TEST-PC-01\",\"ipAddress\":\"192.168.29.50\",\"agentKey\":\"test-agent-key-2026\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:59.884Z"}
+{"level":"info","message":"POST /api/v1/agent/heartbeat 200 45 - 11.018 ms {\"cpuUsage\":30,\"memoryUsage\":50,\"activeWindow\":\"explorer.exe\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:30:59.921Z"}
+{"level":"info","message":"POST /api/auth/login 200 850 - 294.995 ms {\"email\":\"admin@qserveits.com\",\"password\":\"***\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:00.225Z"}
+{"level":"info","message":"POST /api/computers 201 340 - 7.957 ms {\"hostname\":\"TEST-PC-01\",\"ipAddress\":\"192.168.29.50\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:00.239Z"}
+{"level":"info","message":"POST /api/veyon/screen/lock 200 115 - 10.008 ms {\"computerIds\":[\"ad2d3812-7382-4784-acda-279e79fe3cdc\"]}","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:00.260Z"}
+{"level":"info","message":"GET /api/v1/agent/commands 200 148 - 2.975 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:00.273Z"}
+{"level":"warn","message":"Veyon private key not found at","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:13.129Z"}
+{"level":"info","message":"API server running on port 4000","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:13.529Z"}
+{"level":"info","message":"Health check: http://localhost:4000/api/health","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:13.529Z"}
+{"level":"info","message":"Cron: audit log cleanup scheduled daily at 3:00 AM","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:13.555Z"}
+{"level":"info","message":"AlertMonitor: starting app monitoring (30s interval)","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:13.564Z"}
+{"level":"debug","message":"ActivityWatch request: http://localhost:5600/api/0/buckets","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:13.568Z"}
+{"level":"info","message":"Agent registered: TEST-PC-01 (192.168.29.50) → bbeea9a6-8798-485e-93a7-29d707fead31","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:24.142Z"}
+{"level":"info","message":"POST /api/v1/agent/register 200 293 - 28.167 ms {\"hostname\":\"TEST-PC-01\",\"ipAddress\":\"192.168.29.50\",\"agentKey\":\"test-agent-key-2026\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:24.145Z"}
+{"level":"info","message":"POST /api/v1/agent/heartbeat 200 45 - 11.915 ms {\"cpuUsage\":30,\"memoryUsage\":50,\"activeWindow\":\"explorer.exe\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:24.184Z"}
+{"level":"info","message":"POST /api/auth/login 200 850 - 257.380 ms {\"email\":\"admin@qserveits.com\",\"password\":\"***\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:24.450Z"}
+{"level":"info","message":"POST /api/computers 201 340 - 7.882 ms {\"hostname\":\"TEST-PC-01\",\"ipAddress\":\"192.168.29.50\"}","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:24.465Z"}
+{"level":"info","message":"POST /api/veyon/screen/lock 200 115 - 10.163 ms {\"computerIds\":[\"25dbd49b-d873-40b5-90dc-b3a456527058\"]}","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:24.482Z"}
+{"level":"info","message":"GET /api/v1/agent/commands 200 271 - 2.273 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:24.489Z"}
+{"level":"info","message":"POST /api/v1/agent/commands/c72187fb-7507-4a6b-ad34-e43b514938dd/result 200 93 - 7.784 ms {\"status\":\"completed\",\"result\":{\"success\":true}}","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:24.507Z"}
+{"level":"info","message":"GET /api/v1/agent/commands 200 148 - 3.392 ms -","service":"veyon-aw-api","timestamp":"2026-06-06T12:31:24.516Z"}
