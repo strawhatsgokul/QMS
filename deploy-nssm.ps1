@@ -27,9 +27,12 @@ if (-not $GIT_BIN) {
     "$env:ProgramFiles\Git\mingw64\bin\git.exe",
     "${env:ProgramFiles(x86)}\Git\bin\git.exe",
     "${env:ProgramFiles(x86)}\Git\cmd\git.exe",
+    "$env:LOCALAPPDATA\Programs\Git\cmd\git.exe",
     "$env:LOCALAPPDATA\Programs\Git\bin\git.exe",
+    "$env:LOCALAPPDATA\Git\cmd\git.exe",
     "$env:LOCALAPPDATA\Git\bin\git.exe",
     "$env:USERPROFILE\scoop\shims\git.exe",
+    "$env:USERPROFILE\AppData\Local\Programs\Git\cmd\git.exe",
     "$env:USERPROFILE\AppData\Local\Programs\Git\bin\git.exe"
   )
   foreach ($c in $candidates) {
@@ -37,8 +40,11 @@ if (-not $GIT_BIN) {
   }
   # Last resort: scan Program Files
   if (-not $GIT_BIN) {
-    $found = Get-ChildItem -Path "$env:ProgramFiles\Git" -Recurse -Filter "git.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
-    if ($found) { $GIT_BIN = $found.FullName }
+    $searchPaths = @("$env:ProgramFiles\Git", "$env:LOCALAPPDATA\Programs\Git", "$env:LOCALAPPDATA\Git")
+    foreach ($sp in $searchPaths) {
+      $found = Get-ChildItem -Path $sp -Recurse -Filter "git.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+      if ($found) { $GIT_BIN = $found.FullName; break }
+    }
   }
 }
 
