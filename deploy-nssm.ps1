@@ -23,12 +23,22 @@ $GIT_BIN = (Get-Command git -ErrorAction SilentlyContinue).Source
 if (-not $GIT_BIN) {
   $candidates = @(
     "$env:ProgramFiles\Git\bin\git.exe",
+    "$env:ProgramFiles\Git\cmd\git.exe",
+    "$env:ProgramFiles\Git\mingw64\bin\git.exe",
     "${env:ProgramFiles(x86)}\Git\bin\git.exe",
+    "${env:ProgramFiles(x86)}\Git\cmd\git.exe",
     "$env:LOCALAPPDATA\Programs\Git\bin\git.exe",
-    "$env:USERPROFILE\scoop\shims\git.exe"
+    "$env:LOCALAPPDATA\Git\bin\git.exe",
+    "$env:USERPROFILE\scoop\shims\git.exe",
+    "$env:USERPROFILE\AppData\Local\Programs\Git\bin\git.exe"
   )
   foreach ($c in $candidates) {
     if (Test-Path $c) { $GIT_BIN = $c; break }
+  }
+  # Last resort: scan Program Files
+  if (-not $GIT_BIN) {
+    $found = Get-ChildItem -Path "$env:ProgramFiles\Git" -Recurse -Filter "git.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($found) { $GIT_BIN = $found.FullName }
   }
 }
 
