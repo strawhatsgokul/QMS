@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Deploy QMS Dashboard on Windows Server via NSSM (no Docker).
 #>
@@ -34,7 +34,7 @@ Write-Host "[OK] NSSM at $($nssmPath.Source)" -ForegroundColor Green
 # 2. Clone / pull repo
 # --------------------------------------------------
 if (Test-Path "$INSTALL_DIR\.git") {
-  Write-Host "[INFO] Repository exists — pulling latest..." -ForegroundColor Cyan
+  Write-Host "[INFO] Repository exists -- pulling latest..." -ForegroundColor Cyan
   Set-Location $INSTALL_DIR
   git fetch origin
   git reset --hard "origin/$BRANCH"
