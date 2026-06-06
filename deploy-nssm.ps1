@@ -18,35 +18,49 @@ $adapterFilter = { $_.InterfaceAlias -ne 'Loopback' -and $_.PrefixOrigin -ne 'We
 $SERVER_IP   = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object $adapterFilter | Select-Object -First 1).IPAddress
 if (-not $SERVER_IP) { $SERVER_IP = "127.0.0.1" }
 
-# Find git (common install locations)
+# Find git — elevated sessions can corrupt USERPROFILE/LOCALAPPDATA
+# on some Windows builds, so resolve via registry (SID-based)
 $GIT_BIN = (Get-Command git -ErrorAction SilentlyContinue).Source
 if (-not $GIT_BIN) {
-  $localAppData = [Environment]::GetFolderPath('LocalApplicationData')
+  # Resolve real user profile from registry (immune to elevation env var mangling)
+  $sid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+  $profileKey = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$sid"
+  $realProfile = (Get-ItemProperty $profileKey -Name ProfileImagePath -ErrorAction SilentlyContinue).ProfileImagePath
+  $realLocalAppData = if ($realProfile) { "$realProfile\AppData\Local" } else { $null }
+
   $candidates = @(
+    # System-wide installs
     "$env:ProgramFiles\Git\bin\git.exe",
     "$env:ProgramFiles\Git\cmd\git.exe",
     "$env:ProgramFiles\Git\mingw64\bin\git.exe",
     "${env:ProgramFiles(x86)}\Git\bin\git.exe",
-    "${env:ProgramFiles(x86)}\Git\cmd\git.exe",
-    "$localAppData\Programs\Git\cmd\git.exe",
-    "$localAppData\Programs\Git\bin\git.exe",
-    "$localAppData\Git\cmd\git.exe",
-    "$localAppData\Git\bin\git.exe"
+    "${env:ProgramFiles(x86)}\Git\cmd\git.exe"
   )
-  foreach ($c in $candidates) {
-    if (Test-Path $c) { $GIT_BIN = $c; break }
+  # Per-user (via registry-resolved path)
+  if ($realLocalAppData) {
+    $candidates += "$realLocalAppData\Programs\Git\cmd\git.exe"
+    $candidates += "$realLocalAppData\Programs\Git\bin\git.exe"
+    $candidates += "$realLocalAppData\Git\cmd\git.exe"
+    $candidates += "$realLocalAppData\Git\bin\git.exe"
   }
+  # Fallback env vars (may be wrong on some systems but worth trying)
+  $candidates += "$env:LOCALAPPDATA\Programs\Git\cmd\git.exe"
+  $candidates += "$env:LOCALAPPDATA\Programs\Git\bin\git.exe"
+
+  foreach ($c in $candidates) {
+    if ($c -and (Test-Path $c)) { $GIT_BIN = $c; break }
+  }
+
   if (-not $GIT_BIN) {
-    $searchPaths = @(
-      "$env:ProgramFiles\Git",
-      "$localAppData\Programs\Git",
-      "$localAppData\Git",
-      "$env:USERPROFILE\AppData\Local\Programs\Git",
-      "$env:USERPROFILE\AppData\Local\Git"
-    )
+    $searchPaths = @("$env:ProgramFiles\Git")
+    if ($realLocalAppData) { $searchPaths += "$realLocalAppData\Programs\Git"; $searchPaths += "$realLocalAppData\Git" }
+    $searchPaths += "$env:USERPROFILE\AppData\Local\Programs\Git"
+    $searchPaths += "$env:USERPROFILE\AppData\Local\Git"
     foreach ($sp in $searchPaths) {
-      $found = Get-ChildItem -Path $sp -Recurse -Filter "git.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
-      if ($found) { $GIT_BIN = $found.FullName; break }
+      if (Test-Path $sp) {
+        $found = Get-ChildItem -Path $sp -Recurse -Filter "git.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($found) { $GIT_BIN = $found.FullName; break }
+      }
     }
   }
 }
