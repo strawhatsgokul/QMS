@@ -158,7 +158,18 @@ if ($LASTEXITCODE -ne 0) { Write-Err "Web build failed"; exit 1 }
 Write-Ok "Web built"
 
 # --------------------------------------------------
-# 8. Stop existing NSSM services if running
+# 8. Build agent executable
+# --------------------------------------------------
+Write-Info "Building agent executable..."
+Set-Location "$INSTALL_DIR\packages\qms-agent"
+npm run build
+if ($LASTEXITCODE -ne 0) { Write-Err "Agent build failed"; exit 1 }
+pwsh -File build-exe.ps1 -OutDir "$INSTALL_DIR\dist"
+if ($LASTEXITCODE -ne 0) { Write-Err "Agent EXE build failed"; exit 1 }
+Write-Ok "Agent EXE built: $INSTALL_DIR\dist\qms-agent.exe"
+
+# --------------------------------------------------
+# 9. Stop existing NSSM services if running
 # --------------------------------------------------
 @('QMS-API', 'QMS-WEB') | ForEach-Object {
   $svc = nssm status $_ 2>&1
@@ -170,7 +181,7 @@ Write-Ok "Web built"
 }
 
 # --------------------------------------------------
-# 9. Create NSSM services
+# 10. Create NSSM services
 # --------------------------------------------------
 Write-Info "Creating NSSM services..."
 
@@ -201,7 +212,7 @@ nssm set    QMS-WEB Description "Next.js frontend for QMS Dashboard"
 Write-Ok "QMS-WEB service created"
 
 # --------------------------------------------------
-# 10. Start services
+# 11. Start services
 # --------------------------------------------------
 Write-Info "Starting services..."
 nssm start QMS-API
@@ -213,7 +224,7 @@ nssm start QMS-WEB
 Write-Ok "QMS-WEB started"
 
 # --------------------------------------------------
-# 11. Health check
+# 12. Health check
 # --------------------------------------------------
 Write-Info "Running health check..."
 Start-Sleep -Seconds 8
@@ -241,7 +252,7 @@ try {
 }
 
 # --------------------------------------------------
-# 12. Summary
+# 13. Summary
 # --------------------------------------------------
 Write-Host ""
 Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Green
@@ -263,6 +274,7 @@ Write-Host ""
 Write-Host "  Post-install steps:" -ForegroundColor Yellow
 Write-Host "  1. Install Veyon Master + configure VEYON_* in .env" -ForegroundColor Yellow
 Write-Host "  2. Install ActivityWatch on target computers" -ForegroundColor Yellow
-Write-Host "  3. Run deploy-agent.ps1 on target computers" -ForegroundColor Yellow
-Write-Host "  4. Access dashboard at http://${SERVER_IP}:${WEB_PORT}" -ForegroundColor Yellow
-Write-Host "  5. Login with admin@qserveits.com / admin (change on first login)" -ForegroundColor Yellow
+Write-Host "  3. Copy agent EXE from ${INSTALL_DIR}\dist\qms-agent.exe to target machines" -ForegroundColor Yellow
+Write-Host "  4. Run deploy-agent.ps1 on each target machine" -ForegroundColor Yellow
+Write-Host "  5. Access dashboard at http://${SERVER_IP}:${WEB_PORT}" -ForegroundColor Yellow
+Write-Host "  6. Login with admin@qserveits.com / admin (change on first login)" -ForegroundColor Yellow
