@@ -121,6 +121,8 @@ const options: swaggerJsdoc.Options = {
       '/api/v1/agent/register': { post: { tags: ['Agent'], summary: 'Register agent', responses: { '200': { description: 'Agent token' } } } },
       '/api/v1/agent/heartbeat': { post: { tags: ['Agent'], summary: 'Agent heartbeat', responses: { '200': { description: 'Acknowledged' } } } },
       '/api/v1/agent/commands': { get: { tags: ['Agent'], summary: 'Get pending commands', responses: { '200': { description: 'Command list' } } } },
+      '/api/v1/agent/commands/{id}/result': { post: { tags: ['Agent'], summary: 'Report command result', parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }], responses: { '200': { description: 'Acknowledged' } } } },
+      '/api/v1/agent/veyon-config': { get: { tags: ['Agent'], summary: 'Get Veyon configuration for agent', responses: { '200': { description: 'Veyon config with private key' } } } },
       '/api/health': { get: { tags: ['System'], summary: 'Health check', responses: { '200': { description: 'OK' } } } },
     },
   },

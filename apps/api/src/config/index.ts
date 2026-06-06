@@ -20,6 +20,10 @@ export const config = {
     refreshExpiresIn: process.env['JWT_REFRESH_EXPIRES_IN'] || '7d',
   },
 
+  agent: {
+    key: process.env['AGENT_KEY'] || 'test-agent-key-2026',
+  },
+
   veyon: {
     cliPath: process.env['VEYON_CLI_PATH'] || 'veyon-cli',
     apiKey: process.env['VEYON_API_KEY'] || '',

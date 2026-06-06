@@ -10,7 +10,6 @@ async function main() {
   console.log('Seeding database...');
 
   // Delete all existing records in dependency order
-  await prisma.agentCommand.deleteMany();
   await prisma.agentHeartbeat.deleteMany();
   await prisma.agent.deleteMany();
   await prisma.alertDetection.deleteMany();

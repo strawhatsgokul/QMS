@@ -215,12 +215,15 @@ model Agent {
   hostname        String
   ipAddress       String           @map("ip_address")
   status          String           @default("offline")
+  agentKey        String?          @map("agent_key")
   lastHeartbeatAt DateTime?        @map("last_heartbeat_at")
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @updatedAt @map("updated_at")
 
   heartbeats      AgentHeartbeat[]
+  commands        AgentCommand[]
 
+  @@unique([hostname])
   @@index([hostname])
   @@index([status])
   @@map("agents")
@@ -239,4 +242,22 @@ model AgentHeartbeat {
   @@index([agentId])
   @@index([timestamp])
   @@map("agent_heartbeats")
+}
+
+model AgentCommand {
+  id           String   @id @default(uuid())
+  agentId      String   @map("agent_id")
+  type         String
+  params       String?
+  status       String   @default("pending")
+  result       String?
+  errorMessage String?  @map("error_message")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  agent        Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+  @@index([status])
+  @@map("agent_commands")
 }

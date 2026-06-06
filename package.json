@@ -50,6 +50,9 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^9.1.2",
+    "ajv": "^8.20.0",
+    "lru-cache": "^10.4.3",
     "node-cron": "^4.2.1"
   }
 }

@@ -21,6 +21,7 @@ import { auditLogsRouter } from './routes/audit-logs.js';
 import { notificationsRouter } from './routes/notifications.js';
 import { watchRulesRouter } from './routes/watch-rules.js';
 import { alertsRouter } from './routes/alerts.js';
+import { agentRouter } from './routes/agent.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { csrfCheck } from './middleware/csrf.js';
 import { authenticate } from './middleware/auth.js';
@@ -92,6 +93,7 @@ app.use('/api/audit-logs', authenticate, auditLogsRouter);
 app.use('/api/notifications', authenticate, notificationsRouter);
 app.use('/api/watch-rules', authenticate, watchRulesRouter);
 app.use('/api/alerts', authenticate, alertsRouter);
+app.use('/api/v1/agent', agentRouter);
 
 app.use(errorHandler);
 
