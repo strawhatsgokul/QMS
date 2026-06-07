@@ -30,15 +30,15 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Source: "..\deploy-nssm.ps1"; DestDir: "{tmp}\qms"; Flags: ignoreversion
 
 [Run]
-; Step 1: Clone repo into C:\QMS\QMS if not already present
+; Step 1: Clone repo into {app}\QMS if not already present
 Filename: "powershell.exe"; \
-  Parameters: "-NoProfile -ExecutionPolicy Bypass -Command ""if (-not (Test-Path '{#DefaultDirName}\QMS\.git')) {{ & git clone --branch Developement https://github.com/strawhatsgokul/QMS.git '{#DefaultDirName}\QMS' 2>&1 | Out-Host }} else {{ Set-Location '{#DefaultDirName}\QMS'; & git pull 2>&1 | Out-Host }}"""; \
-  StatusMsg: "Cloning repository to {#DefaultDirName}\QMS..."; \
+  Parameters: "-NoProfile -ExecutionPolicy Bypass -Command ""if (-not (Test-Path '{app}\QMS\.git')) {{ & git clone --branch Developement https://github.com/strawhatsgokul/QMS.git '{app}\QMS' 2>&1 | Out-Host }} else {{ Set-Location '{app}\QMS'; & git pull 2>&1 | Out-Host }}"""; \
+  StatusMsg: "Cloning repository to {app}\QMS..."; \
   Flags: shellexec waituntilterminated;
 
 ; Step 2: Copy latest deploy-nssm.ps1 into the cloned repo, then run it
 Filename: "powershell.exe"; \
-  Parameters: "-NoProfile -ExecutionPolicy Bypass -Command ""Copy-Item '{tmp}\qms\deploy-nssm.ps1' '{#DefaultDirName}\QMS\deploy-nssm.ps1' -Force; Set-Location '{#DefaultDirName}\QMS'; & '.\deploy-nssm.ps1'; Write-Host '`n[Setup] Deployment complete. Press any key to exit...'; $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')"""; \
+  Parameters: "-NoProfile -ExecutionPolicy Bypass -Command ""Copy-Item '{tmp}\qms\deploy-nssm.ps1' '{app}\QMS\deploy-nssm.ps1' -Force; Set-Location '{app}\QMS'; & '.\deploy-nssm.ps1'; Write-Host '`n[Setup] Deployment complete. Press any key to exit...'; $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')"""; \
   StatusMsg: "Deploying QMS Dashboard (PowerShell window shows progress)..."; \
   Flags: shellexec waituntilterminated;
 

@@ -60,6 +60,7 @@ function InitializeSetup: Boolean;
 var
   I: Integer;
   Param: string;
+  MissingMsg: string;
 begin
   ApiUrl := '';
   AgentKey := '';
@@ -73,27 +74,21 @@ begin
       AgentKey := Copy(Param, 12, Length(Param) - 11);
   end;
 
-  // Prompt for missing values
+  MissingMsg := '';
   if ApiUrl = '' then
-  begin
-    ApiUrl := 'http://localhost:4000';
-    if not InputQuery('QMS Agent Setup', 'Server API URL:', False, 0, ApiUrl) then
-    begin
-      Result := False;
-      Exit;
-    end;
-  end;
-
+    MissingMsg := MissingMsg + #13 + '  /ApiUrl=http://your-server:4000';
   if AgentKey = '' then
-  begin
-    if not InputQuery('QMS Agent Setup', 'Agent Key (from server deployment output):', False, 0, AgentKey) then
-    begin
-      Result := False;
-      Exit;
-    end;
-  end;
+    MissingMsg := MissingMsg + #13 + '  /AgentKey=<key-from-server>';
 
-  Result := (ApiUrl <> '') and (AgentKey <> '');
-  if not Result then
-    MsgBox('Both Server API URL and Agent Key are required.', mbError, MB_OK);
+  if MissingMsg <> '' then
+  begin
+    MsgBox('QMS Agent Setup requires the following parameters:' + MissingMsg + #13#13 +
+      'Example: QMS-Client-Setup.exe' +
+      ' /ApiUrl=http://server-ip:4000' +
+      ' /AgentKey=my-agent-key' + #13#13 +
+      'Re-run the installer with these parameters.', mbError, MB_OK);
+    Result := False;
+  end
+  else
+    Result := True;
 end;
