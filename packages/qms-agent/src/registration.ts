@@ -1,7 +1,7 @@
 import os from 'node:os';
 import { Transport } from './transport.js';
-import { AgentQueue } from './queue.js';
 import { logger } from './logger.js';
+import type { SessionStore } from './session.store.js';
 
 export interface RegistrationResult {
   agentId: string;
@@ -9,16 +9,11 @@ export interface RegistrationResult {
   isNew: boolean;
 }
 
-export async function registerOrAuthenticate(transport: Transport, queue: AgentQueue, agentKey: string): Promise<RegistrationResult> {
-  const storedToken = queue.get('agentToken');
-  const storedAgentId = queue.get('agentId');
-
-  if (storedToken && storedAgentId) {
-    transport.setToken(storedToken);
-    logger.info('Using stored agent credentials');
-    return { agentId: storedAgentId, token: storedToken, isNew: false };
-  }
-
+export async function registerOrAuthenticate(
+  transport: Transport,
+  sessionStore: SessionStore,
+  agentKey: string,
+): Promise<RegistrationResult> {
   const hostname = os.hostname();
   const interfaces = os.networkInterfaces();
   let ipAddress = '127.0.0.1';
@@ -48,8 +43,7 @@ export async function registerOrAuthenticate(transport: Transport, queue: AgentQ
   logger.info(`Registering agent: ${hostname} (${ipAddress})`);
   const result = await transport.post<{ agentId: string; token: string }>('/api/v1/agent/register', payload, 5);
 
-  queue.set('agentToken', result.token);
-  queue.set('agentId', result.agentId);
+  sessionStore.setSession(result.agentId, result.token);
   transport.setToken(result.token);
 
   logger.info(`Registered successfully. AgentId: ${result.agentId}`);

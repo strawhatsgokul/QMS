@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import { loadConfig } from './config.js';
 import { initLogger, logger } from './logger.js';
 import { Transport } from './transport.js';
+import { SessionStore } from './session.store.js';
 import { AgentQueue } from './queue.js';
 import { registerOrAuthenticate } from './registration.js';
 import { sendHeartbeat } from './heartbeat.js';
@@ -24,14 +25,24 @@ async function main() {
   logger.info(`Command poll interval: ${config.commandPollInterval}s`);
 
   const transport = new Transport(config);
+  const sessionStore = new SessionStore(config.dataDir);
   const queue = new AgentQueue(config.dataDir);
 
-  try {
-    const reg = await registerOrAuthenticate(transport, queue, config.agentKey);
-    logger.info(`Agent ready | ID: ${reg.agentId} | ${reg.isNew ? 'New registration' : 'Existing session'}`);
-  } catch (err) {
-    logger.error('Failed to register agent. Exiting.', { error: err instanceof Error ? err.message : String(err) });
-    process.exit(1);
+  // ── Restore previous session or register fresh ──
+  const existingSession = sessionStore.getSession();
+  if (existingSession) {
+    transport.setToken(existingSession.token);
+    logger.info(`Session restored | AgentId: ${existingSession.agentId}`);
+  } else {
+    try {
+      const reg = await registerOrAuthenticate(transport, sessionStore, config.agentKey);
+      logger.info(`Agent registered | ID: ${reg.agentId}`);
+    } catch (err) {
+      logger.error('Failed to register agent. Exiting.', { error: err instanceof Error ? err.message : String(err) });
+      sessionStore.close();
+      queue.close();
+      process.exit(1);
+    }
   }
 
   // Bootstrap Veyon configuration if needed
@@ -69,6 +80,7 @@ async function main() {
 
   const shutdown = () => {
     logger.info('Shutting down...');
+    sessionStore.close();
     queue.close();
     process.exit(0);
   };
