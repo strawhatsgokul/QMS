@@ -24,8 +24,8 @@ computersRouter.get('/', async (req, res, next) => {
     if (status) where['status'] = status;
     if (search) {
       where['OR'] = [
-        { hostname: { contains: search, mode: 'insensitive' } },
-        { ipAddress: { contains: search, mode: 'insensitive' } },
+        { hostname: { contains: search } },
+        { ipAddress: { contains: search } },
       ];
     }
     const computers = await prisma.computer.findMany({
