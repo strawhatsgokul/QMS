@@ -35,6 +35,8 @@ api.interceptors.response.use(
         } catch {
           localStorage.removeItem('access_token');
           localStorage.removeItem('refresh_token');
+          const { useAuthStore } = await import('@/store/auth');
+          useAuthStore.getState().logout();
           if (typeof window !== 'undefined') {
             window.location.href = '/login';
           }

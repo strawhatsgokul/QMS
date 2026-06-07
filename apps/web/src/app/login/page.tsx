@@ -32,7 +32,8 @@ export default function LoginPage() {
         router.push('/');
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
+      setError(axiosErr?.response?.data?.error?.message || (err instanceof Error ? err.message : 'Login failed'));
     } finally {
       setLoading(false);
     }

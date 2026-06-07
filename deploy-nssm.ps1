@@ -199,6 +199,14 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "[OK] Database schema applied" -ForegroundColor Green
 
+Write-Host "[INFO] Seeding database (admin user + defaults)..." -ForegroundColor Cyan
+npx prisma db seed
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "[WARN] DB seed failed (may already be seeded)" -ForegroundColor Yellow
+} else {
+  Write-Host "[OK] Database seeded" -ForegroundColor Green
+}
+
 # --------------------------------------------------
 # 7. Build applications
 # --------------------------------------------------

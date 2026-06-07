@@ -43,7 +43,8 @@ export default function ChangePasswordPage() {
       }
       router.push('/');
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Password change failed');
+      const axiosErr = err as { response?: { data?: { error?: { message?: string } } } };
+      setError(axiosErr?.response?.data?.error?.message || (err instanceof Error ? err.message : 'Password change failed'));
     } finally {
       setLoading(false);
     }
